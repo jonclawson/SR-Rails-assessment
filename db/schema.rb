@@ -10,9 +10,43 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_05_05_233323) do
+ActiveRecord::Schema[8.1].define(version: 2026_05_05_233547) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
+
+  create_table "line_items", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.bigint "order_id", null: false
+    t.bigint "product_id", null: false
+    t.integer "quantity"
+    t.decimal "total", precision: 10, scale: 2
+    t.decimal "unit_price", precision: 10, scale: 2
+    t.datetime "updated_at", null: false
+    t.index ["order_id"], name: "index_line_items_on_order_id"
+    t.index ["product_id"], name: "index_line_items_on_product_id"
+  end
+
+  create_table "orders", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "order_number"
+    t.decimal "subtotal", precision: 10, scale: 2
+    t.decimal "tax", precision: 10, scale: 2
+    t.decimal "total", precision: 10, scale: 2
+    t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.index ["order_number"], name: "index_orders_on_order_number", unique: true
+    t.index ["user_id"], name: "index_orders_on_user_id"
+  end
+
+  create_table "products", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.text "description"
+    t.string "name"
+    t.decimal "price", precision: 10, scale: 2
+    t.string "sku"
+    t.datetime "updated_at", null: false
+    t.index ["sku"], name: "index_products_on_sku", unique: true
+  end
 
   create_table "sessions", force: :cascade do |t|
     t.datetime "created_at", null: false
@@ -31,5 +65,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_05_233323) do
     t.index ["email_address"], name: "index_users_on_email_address", unique: true
   end
 
+  add_foreign_key "line_items", "orders"
+  add_foreign_key "line_items", "products"
+  add_foreign_key "orders", "users"
   add_foreign_key "sessions", "users"
 end
