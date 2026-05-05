@@ -3,6 +3,13 @@ class Order < ApplicationRecord
   belongs_to :user
   has_many :line_items, dependent: :destroy
   has_many :products, through: :line_items
+  has_many :order_transitions, autosave: false, dependent: :destroy
+
+  # Statesman integration
+  include Statesman::Adapters::ActiveRecordQueries[
+    transition_class: OrderTransition,
+    initial_state: :pending
+  ]
 
   # Validations
   validates :order_number, presence: true, uniqueness: true
@@ -15,6 +22,17 @@ class Order < ApplicationRecord
   # Callbacks
   before_validation :generate_order_number, on: :create
   before_validation :calculate_totals
+
+  # State machine methods
+  def state_machine
+    @state_machine ||= OrderStateMachine.new(self, transition_class: OrderTransition)
+  end
+
+  def current_state
+    state_machine.current_state
+  end
+
+  delegate :can_transition_to?, :transition_to!, :transition_to, :in_state?, to: :state_machine
 
   # Helper methods
   def formatted_total
