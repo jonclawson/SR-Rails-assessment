@@ -32,14 +32,32 @@ class Order < ApplicationRecord
 
   # State machine methods
   def state_machine
-    @state_machine ||= OrderStateMachine.new(self, transition_class: OrderTransition)
+    @state_machine ||= OrderStateMachine.new(
+      self,
+      transition_class: OrderTransition,
+      association_name: :order_transitions
+    )
   end
 
   def current_state
     state_machine.current_state
   end
 
-  delegate :can_transition_to?, :transition_to!, :transition_to, :in_state?, to: :state_machine
+  def can_transition_to?(new_state)
+    state_machine.can_transition_to?(new_state)
+  end
+
+  def transition_to!(new_state, metadata = {})
+    state_machine.transition_to!(new_state, metadata)
+  end
+
+  def transition_to(new_state, metadata = {})
+    state_machine.transition_to(new_state, metadata)
+  end
+
+  def in_state?(state)
+    state_machine.in_state?(state)
+  end
 
   # Helper methods
   def formatted_total
@@ -47,7 +65,13 @@ class Order < ApplicationRecord
   end
 
   def calculate_totals
-    self.subtotal = line_items.sum(&:total)
+    # Ensure line items have their prices calculated first
+    line_items.each do |line_item|
+      line_item.unit_price ||= line_item.product&.price
+      line_item.total = (line_item.quantity || 0) * (line_item.unit_price || 0)
+    end
+    
+    self.subtotal = line_items.sum { |li| li.total || 0 }
     self.tax = (subtotal * 0.08).round(2) # 8% tax rate
     self.total = subtotal + tax
   end

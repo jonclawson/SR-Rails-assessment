@@ -19,12 +19,12 @@ class OrderStateMachine
   end
 
   # Guard: Can't cancel if delivered
-  guard_transition(to: :canceled) do |order, _transition|
+  guard_transition(to: :canceled) do |order|
     !order.in_state?(:delivered)
   end
 
   # After transition callbacks
-  after_transition(to: :shipped) do |order, transition|
+  after_transition(to: :shipped) do |order|
     # Queue tracking sync job when order is shipped
     SyncTrackingJob.perform_later(order.id) if defined?(SyncTrackingJob)
 

@@ -1,4 +1,7 @@
 class OrderTransition < ApplicationRecord
+  # Don't include Statesman::Adapters::ActiveRecordTransition because
+  # we're using a JSONB column which doesn't need serialization
+  
   belongs_to :order, inverse_of: :order_transitions
 
   # Statesman requires this
