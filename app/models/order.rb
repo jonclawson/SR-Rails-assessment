@@ -7,6 +7,7 @@ class Order < ApplicationRecord
   has_many :line_items, dependent: :destroy
   has_many :products, through: :line_items
   has_many :order_transitions, autosave: false, dependent: :destroy
+  has_many :tracking_events, dependent: :destroy
 
   # Statesman integration
   include Statesman::Adapters::ActiveRecordQueries[

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_05_05_234153) do
+ActiveRecord::Schema[8.1].define(version: 2026_05_05_234432) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -71,6 +71,21 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_05_234153) do
     t.index ["user_id"], name: "index_sessions_on_user_id"
   end
 
+  create_table "tracking_events", force: :cascade do |t|
+    t.string "carrier"
+    t.datetime "created_at", null: false
+    t.text "description"
+    t.string "event_type"
+    t.string "location"
+    t.datetime "occurred_at"
+    t.bigint "order_id", null: false
+    t.string "tracking_number"
+    t.datetime "updated_at", null: false
+    t.index ["order_id", "occurred_at"], name: "index_tracking_events_on_order_id_and_occurred_at"
+    t.index ["order_id"], name: "index_tracking_events_on_order_id"
+    t.index ["tracking_number"], name: "index_tracking_events_on_tracking_number"
+  end
+
   create_table "users", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "email_address", null: false
@@ -94,4 +109,5 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_05_234153) do
   add_foreign_key "order_transitions", "orders"
   add_foreign_key "orders", "users"
   add_foreign_key "sessions", "users"
+  add_foreign_key "tracking_events", "orders"
 end
