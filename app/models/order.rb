@@ -9,6 +9,9 @@ class Order < ApplicationRecord
   has_many :order_transitions, autosave: false, dependent: :destroy
   has_many :tracking_events, dependent: :destroy
 
+  # Nested attributes
+  accepts_nested_attributes_for :line_items, allow_destroy: true, reject_if: :all_blank
+
   # Statesman integration
   include Statesman::Adapters::ActiveRecordQueries[
     transition_class: OrderTransition,

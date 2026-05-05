@@ -1,0 +1,249 @@
+<% content_for :title, "Order #{@order.order_number}" %>
+
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+  <!-- Header with Back Link -->
+  <div class="mb-6">
+    <%= link_to orders_path, class: "inline-flex items-center text-sm font-medium text-gray-500 hover:text-gray-700" do %>
+      <svg class="mr-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+      </svg>
+      Back to Orders
+    <% end %>
+  </div>
+
+  <!-- Order Header -->
+  <div class="bg-white shadow overflow-hidden sm:rounded-lg mb-6">
+    <div class="px-4 py-5 sm:px-6 flex justify-between items-center">
+      <div>
+        <h1 class="text-2xl font-bold text-gray-900">Order <%= @order.order_number %></h1>
+        <p class="mt-1 text-sm text-gray-500">
+          Placed <%= @order.created_at.strftime("%B %d, %Y at %I:%M %p") %>
+        </p>
+      </div>
+      <div class="flex items-center space-x-4">
+        <span class="px-3 py-1 inline-flex text-sm leading-5 font-semibold rounded-full <%= state_badge_class(@order.current_state) %>">
+          <%= @order.current_state.capitalize %>
+        </span>
+      </div>
+    </div>
+</div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <!-- Main Content (Left 2 columns) -->
+    <div class="lg:col-span-2 space-y-6">
+      <!-- Customer Information -->
+      <div class="bg-white shadow overflow-hidden sm:rounded-lg">
+        <div class="px-4 py-5 sm:px-6 border-b border-gray-200">
+          <h3 class="text-lg leading-6 font-medium text-gray-900">Customer Information</h3>
+        </div>
+        <div class="px-4 py-5 sm:p-6">
+          <dl class="grid grid-cols-1 gap-x-4 gap-y-4">
+            <div>
+              <dt class="text-sm font-medium text-gray-500">Email</dt>
+              <dd class="mt-1 text-sm text-gray-900"><%= @order.user.email_address %></dd>
+            </div>
+          </dl>
+        </div>
+      </div>
+
+      <!-- Line Items -->
+      <div class="bg-white shadow overflow-hidden sm:rounded-lg">
+        <div class="px-4 py-5 sm:px-6 border-b border-gray-200">
+          <h3 class="text-lg leading-6 font-medium text-gray-900">Order Items</h3>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-gray-50">
+              <tr>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Product</th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">SKU</th>
+                <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Price</th>
+                <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Quantity</th>
+                <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Total</th>
+              </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200">
+              <% @order.line_items.includes(:product).each do |line_item| %>
+                <tr>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                    <%= line_item.product.name %>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <%= line_item.product.sku %>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 text-right">
+                    $<%= number_with_precision(line_item.unit_price, precision: 2) %>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 text-right">
+                    <%= line_item.quantity %>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 text-right font-medium">
+                    $<%= number_with_precision(line_item.total, precision: 2) %>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+            <tfoot class="bg-gray-50">
+              <tr>
+                <td colspan="4" class="px-6 py-3 text-right text-sm font-medium text-gray-900">Subtotal</td>
+                <td class="px-6 py-3 text-right text-sm text-gray-900">$<%= number_with_precision(@order.subtotal, precision: 2) %></td>
+              </tr>
+              <tr>
+                <td colspan="4" class="px-6 py-3 text-right text-sm font-medium text-gray-900">Tax (8%)</td>
+                <td class="px-6 py-3 text-right text-sm text-gray-900">$<%= number_with_precision(@order.tax, precision: 2) %></td>
+              </tr>
+              <tr class="border-t-2 border-gray-300">
+                <td colspan="4" class="px-6 py-4 text-right text-base font-bold text-gray-900">Total</td>
+                <td class="px-6 py-4 text-right text-base font-bold text-gray-900">$<%= number_with_precision(@order.total, precision: 2) %></td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      </div>
+
+      <!-- Tracking Timeline -->
+      <% if @order.tracking_number.present? %>
+        <div class="bg-white shadow overflow-hidden sm:rounded-lg">
+          <div class="px-4 py-5 sm:px-6 border-b border-gray-200">
+            <div class="flex justify-between items-center">
+              <h3 class="text-lg leading-6 font-medium text-gray-900">Tracking Timeline</h3>
+              <span class="text-sm font-mono text-gray-500"><%= @order.tracking_number %></span>
+            </div>
+          </div>
+          <div class="px-4 py-5 sm:p-6">
+            <% if @tracking_events.any? %>
+              <div class="flow-root">
+                <ul class="-mb-8">
+                  <% @tracking_events.each_with_index do |event, index| %>
+                    <li>
+                      <div class="relative pb-8">
+                        <% unless index == @tracking_events.size - 1 %>
+                          <span class="absolute top-4 left-4 -ml-px h-full w-0.5 bg-gray-200" aria-hidden="true"></span>
+                        <% end %>
+                        <div class="relative flex space-x-3">
+                          <div>
+                            <span class="h-8 w-8 rounded-full <%= event.event_type == 'delivered' ? 'bg-green-500' : 'bg-indigo-500' %> flex items-center justify-center ring-8 ring-white">
+                              <svg class="h-5 w-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                <% if event.event_type == 'delivered' %>
+                                  <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                                <% else %>
+                                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"/>
+                                <% end %>
+                              </svg>
+                            </span>
+                          </div>
+                          <div class="min-w-0 flex-1 pt-1.5 flex justify-between space-x-4">
+                            <div>
+                              <p class="text-sm font-medium text-gray-900"><%= event.description %></p>
+                              <p class="text-sm text-gray-500"><%= event.location %> • <%= event.carrier %></p>
+                            </div>
+                            <div class="text-right text-sm whitespace-nowrap text-gray-500">
+                              <time datetime="<%= event.occurred_at.iso8601 %>">
+                                <%= event.occurred_at.strftime("%b %d, %I:%M %p") %>
+                              </time>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </li>
+                  <% end %>
+                </ul>
+              </div>
+            <% else %>
+              <p class="text-sm text-gray-500 text-center py-4">No tracking events yet. Events will appear here once the carrier provides tracking updates.</p>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+
+    <!-- Sidebar (Right column) -->
+    <div class="space-y-6">
+      <!-- State Transitions -->
+      <div class="bg-white shadow overflow-hidden sm:rounded-lg">
+        <div class="px-4 py-5 sm:px-6 border-b border-gray-200">
+          <h3 class="text-lg leading-6 font-medium text-gray-900">Quick Actions</h3>
+        </div>
+        <div class="px-4 py-5 sm:p-6 space-y-3">
+          <% @order.state_machine.allowed_transitions.each do |transition| %>
+            <%= button_to "Transition to #{transition.to_state.capitalize}", 
+                order_path(@order, to_state: transition.to_state),
+                method: :patch,
+                class: "w-full inline-flex justify-center items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500",
+                form: { data: { turbo_confirm: "Are you sure you want to transition this order to #{transition.to_state}?" } } %>
+          <% end %>
+          
+          <% if @order.state_machine.allowed_transitions.empty? %>
+            <p class="text-sm text-gray-500 text-center py-2">No transitions available from <%= @order.current_state %> state.</p>
+          <% end %>
+        </div>
+      </div>
+
+      <!-- State History -->
+      <div class="bg-white shadow overflow-hidden sm:rounded-lg">
+        <div class="px-4 py-5 sm:px-6 border-b border-gray-200">
+          <h3 class="text-lg leading-6 font-medium text-gray-900">State History</h3>
+        </div>
+        <div class="px-4 py-5 sm:p-6">
+          <div class="flow-root">
+            <ul class="-mb-8">
+              <% @order_transitions.each_with_index do |transition, index| %>
+                <li>
+                  <div class="relative pb-8">
+                    <% unless index == @order_transitions.size - 1 %>
+                      <span class="absolute top-4 left-4 -ml-px h-full w-0.5 bg-gray-200" aria-hidden="true"></span>
+                    <% end %>
+                    <div class="relative flex space-x-3">
+                      <div>
+                        <span class="h-8 w-8 rounded-full bg-gray-400 flex items-center justify-center ring-8 ring-white">
+                          <svg class="h-5 w-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"/>
+                          </svg>
+                        </span>
+                      </div>
+                      <div class="min-w-0 flex-1">
+                        <div>
+                          <p class="text-sm font-medium text-gray-900 capitalize"><%= transition.to_state %></p>
+                          <p class="mt-0.5 text-xs text-gray-500">
+                            <%= time_ago_in_words(transition.created_at) %> ago
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+              <% end %>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Audit Trail -->
+      <% if @versions.any? %>
+        <div class="bg-white shadow overflow-hidden sm:rounded-lg">
+          <div class="px-4 py-5 sm:px-6 border-b border-gray-200">
+            <h3 class="text-lg leading-6 font-medium text-gray-900">Audit Trail</h3>
+          </div>
+          <div class="px-4 py-5 sm:p-6">
+            <div class="space-y-3">
+              <% @versions.each do |version| %>
+                <div class="text-sm">
+                  <p class="font-medium text-gray-900"><%= version.event.capitalize %></p>
+                  <p class="text-xs text-gray-500">
+                    <%= version.created_at.strftime("%b %d, %Y at %I:%M %p") %>
+                    <% if version.whodunnit.present? %>
+                      <% user = User.find_by(id: version.whodunnit) %>
+                      <% if user %>
+                        by <%= user.email_address %>
+                      <% end %>
+                    <% end %>
+                  </p>
+                </div>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
