@@ -1,4 +1,7 @@
 class Product < ApplicationRecord
+  # PaperTrail auditing
+  has_paper_trail
+
   # Validations
   validates :name, presence: true
   validates :sku, presence: true, uniqueness: true

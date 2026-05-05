@@ -1,4 +1,7 @@
 class LineItem < ApplicationRecord
+  # PaperTrail auditing
+  has_paper_trail
+
   # Associations
   belongs_to :order
   belongs_to :product
