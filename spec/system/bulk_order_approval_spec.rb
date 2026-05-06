@@ -143,12 +143,12 @@ RSpec.describe "Bulk Order Approval", type: :system do
       expect(page).to have_content("Pending")
     end
 
-    # # Step 17: Verify audit trail records the staff member who made the change
-    # expect(page).to have_content("Audit Trail")
-    # within ".bg-white.shadow", text: "Audit Trail" do
-    #   expect(page).to have_content("Update")
-    #   expect(page).to have_content("staff@test.com")
-    # end
+    # Step 17: Verify audit trail records the staff member who made the change
+    expect(page).to have_content("Audit Trail")
+    within ".bg-white.shadow", text: "Audit Trail" do
+      expect(page).to have_content("Update")
+      expect(page).to have_content("staff@test.com")
+    end
   end
 
   scenario "Bulk actions form is always visible" do

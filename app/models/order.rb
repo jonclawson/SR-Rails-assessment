@@ -29,6 +29,7 @@ class Order < ApplicationRecord
   # Callbacks
   before_validation :generate_order_number, on: :create
   before_validation :calculate_totals
+  after_create :create_initial_transition
 
   # State machine methods
   def state_machine
@@ -80,5 +81,18 @@ class Order < ApplicationRecord
 
   def generate_order_number
     self.order_number ||= "ORD-#{SecureRandom.alphanumeric(10).upcase}"
+  end
+
+  def create_initial_transition
+    # Create the initial pending state transition if none exists
+    # This ensures the state history shows the order was created in pending state
+    # We create it directly to bypass Statesman's same-state transition prevention
+    if order_transitions.empty?
+      order_transitions.create!(
+        to_state: "pending",
+        sort_key: 0,
+        most_recent: true
+      )
+    end
   end
 end
