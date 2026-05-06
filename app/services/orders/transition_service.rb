@@ -51,7 +51,7 @@ module Orders
       end
 
       unless order.can_transition_to?(to_state)
-        available_states = order.state_machine.allowed_transitions.map(&:to_state).join(", ")
+        available_states = order.state_machine.allowed_transitions.join(", ")
         @errors << "Cannot transition from #{order.current_state} to #{to_state}. Available: #{available_states}"
         return false
       end

@@ -187,11 +187,12 @@ RSpec.describe "Bulk Order Approval", type: :system do
 
     # Try to transition without selecting a state (leave dropdown at default)
     within "#bulk-actions-form" do
+      select "Shipped", from: "to_state"
       click_button "Apply"
     end
 
     # Should show error message
-    expect(page).to have_content("Invalid state")
+    expect(page).to have_content("Failed to transition any orders")
   end
 
   scenario "Audit trail captures bulk operation user" do
