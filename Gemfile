@@ -58,6 +58,9 @@ group :development, :test do
   # Faker for generating realistic seed data
   gem "faker", "~> 3.0"
 
+  # RSpec testing framework
+  gem "rspec-rails", "~> 7.0"
+
   # Audits gems for known security defects (use config/bundler-audit.yml to ignore issues)
   gem "bundler-audit", require: false
 
