@@ -83,6 +83,11 @@ RSpec.describe "Bulk Order Approval", type: :system do
     find("input[name='order_ids[]'][value='#{order2.id}']").check
     find("input[name='order_ids[]'][value='#{order3.id}']").check
 
+    # Verify the three selected checkboxes are checked
+    expect(find("input[name='order_ids[]'][value='#{order1.id}']")).to be_checked
+    expect(find("input[name='order_ids[]'][value='#{order2.id}']")).to be_checked
+    expect(find("input[name='order_ids[]'][value='#{order3.id}']")).to be_checked
+
     # Verify the fourth order is NOT selected
     fourth_checkbox = find("input[name='order_ids[]'][value='#{order_not_selected.id}']")
     expect(fourth_checkbox).not_to be_checked
@@ -97,10 +102,10 @@ RSpec.describe "Bulk Order Approval", type: :system do
       click_button "Apply"
     end
 
-    # # Step 9: Verify success message
+    # Step 9: Verify success message
     expect(page).to have_content("Successfully transitioned 3 order(s) to approved")
 
-    # # Step 10: Verify the three selected orders are now in "approved" state
+    # Step 10: Verify the three selected orders are now in "approved" state
     order1.reload
     order2.reload
     order3.reload

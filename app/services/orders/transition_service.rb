@@ -18,6 +18,8 @@ module Orders
         # Set PaperTrail context for auditing
         PaperTrail.request(whodunnit: user.id) do
           order.transition_to!(to_state)
+          # Touch the order to create a PaperTrail version with the state change
+          order.touch
         end
 
         true
