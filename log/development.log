@@ -10593,3 +10593,986 @@ Processing by OrdersController#index as HTML
 Completed 200 OK in 441ms (Views: 352.2ms | ActiveRecord: 64.6ms (73 queries, 1 cached) | GC: 11.5ms)
 
 
+Started GET "/orders" for 127.0.0.1 at 2026-05-05 17:11:25 -0700
+Processing by OrdersController#index as HTML
+  [1m[36mSession Load (0.4ms)[0m  [1m[34mSELECT "sessions".* FROM "sessions" WHERE "sessions"."id" = 6 LIMIT 1 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/controllers/concerns/authentication.rb:29:in `find_session_by_cookie'
+  [1m[36mOrder Count (0.7ms)[0m  [1m[34mSELECT COUNT(*) FROM "orders" LEFT OUTER JOIN order_transitions AS most_recent_order_transition ON orders.id = most_recent_order_transition.order_id AND most_recent_order_transition.most_recent = TRUE WHERE (most_recent_order_transition.to_state IN ('pending') OR most_recent_order_transition.to_state IS NULL) /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/controllers/orders_controller.rb:29:in `block in index'
+  [1m[36mOrder Count (0.7ms)[0m  [1m[34mSELECT COUNT(*) FROM "orders" LEFT OUTER JOIN order_transitions AS most_recent_order_transition ON orders.id = most_recent_order_transition.order_id AND most_recent_order_transition.most_recent = TRUE WHERE (most_recent_order_transition.to_state IN ('approved') AND most_recent_order_transition.to_state IS NOT NULL) /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/controllers/orders_controller.rb:29:in `block in index'
+  [1m[36mOrder Count (1.3ms)[0m  [1m[34mSELECT COUNT(*) FROM "orders" LEFT OUTER JOIN order_transitions AS most_recent_order_transition ON orders.id = most_recent_order_transition.order_id AND most_recent_order_transition.most_recent = TRUE WHERE (most_recent_order_transition.to_state IN ('shipped') AND most_recent_order_transition.to_state IS NOT NULL) /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/controllers/orders_controller.rb:29:in `block in index'
+  [1m[36mOrder Count (0.7ms)[0m  [1m[34mSELECT COUNT(*) FROM "orders" LEFT OUTER JOIN order_transitions AS most_recent_order_transition ON orders.id = most_recent_order_transition.order_id AND most_recent_order_transition.most_recent = TRUE WHERE (most_recent_order_transition.to_state IN ('delivered') AND most_recent_order_transition.to_state IS NOT NULL) /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/controllers/orders_controller.rb:29:in `block in index'
+  [1m[36mOrder Count (0.6ms)[0m  [1m[34mSELECT COUNT(*) FROM "orders" LEFT OUTER JOIN order_transitions AS most_recent_order_transition ON orders.id = most_recent_order_transition.order_id AND most_recent_order_transition.most_recent = TRUE WHERE (most_recent_order_transition.to_state IN ('canceled') AND most_recent_order_transition.to_state IS NOT NULL) /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/controllers/orders_controller.rb:29:in `block in index'
+  Rendering layout layouts/application.html.erb
+  Rendering orders/index.html.erb within layouts/application
+  [1m[36mOrder Count (4.9ms)[0m  [1m[34mSELECT COUNT(*) FROM "orders" /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/index.html.erb:42
+  [1m[36mOrder Exists? (0.3ms)[0m  [1m[34mSELECT 1 AS one FROM "orders" LIMIT 1 OFFSET 0 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/index.html.erb:79
+  [1m[36mOrder Load (0.5ms)[0m  [1m[34mSELECT "orders".* FROM "orders" ORDER BY "orders"."created_at" DESC LIMIT 30 OFFSET 0 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/index.html.erb:97
+  [1m[36mUser Load (0.5ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = 11 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/index.html.erb:97
+  [1m[36mLineItem Load (2.8ms)[0m  [1m[34mSELECT "line_items".* FROM "line_items" WHERE "line_items"."order_id" IN (215, 198, 192, 178, 170, 163, 217, 186, 220, 211, 201, 169, 153, 209, 188, 162, 166, 185, 158, 149, 194, 177, 212, 196, 189, 183, 218, 199, 197, 155) /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/index.html.erb:97
+  [1m[36mProduct Load (0.6ms)[0m  [1m[34mSELECT "products".* FROM "products" WHERE "products"."id" IN (324, 311, 318, 323, 313, 322, 315, 307, 305, 329, 328, 325, 306, 327, 321, 302, 316, 303, 312, 330, 326, 320, 317, 314, 308, 309, 304, 319, 301, 310) /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/index.html.erb:97
+  [1m[36mLineItem Sum (0.4ms)[0m  [1m[34mSELECT SUM("line_items"."quantity") FROM "line_items" WHERE "line_items"."order_id" = 215 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/index.html.erb:109
+  [1m[36mOrderTransition Load (0.6ms)[0m  [1m[34mSELECT "order_transitions".* FROM "order_transitions" WHERE "order_transitions"."order_id" = 215 ORDER BY "order_transitions"."sort_key" DESC LIMIT 1 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/models/order.rb:43:in `current_state'
+  [1m[36mLineItem Sum (0.5ms)[0m  [1m[34mSELECT SUM("line_items"."quantity") FROM "line_items" WHERE "line_items"."order_id" = 198 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/index.html.erb:109
+  [1m[36mOrderTransition Load (0.4ms)[0m  [1m[34mSELECT "order_transitions".* FROM "order_transitions" WHERE "order_transitions"."order_id" = 198 ORDER BY "order_transitions"."sort_key" DESC LIMIT 1 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/models/order.rb:43:in `current_state'
+  [1m[36mLineItem Sum (1.5ms)[0m  [1m[34mSELECT SUM("line_items"."quantity") FROM "line_items" WHERE "line_items"."order_id" = 192 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/index.html.erb:109
+  [1m[36mOrderTransition Load (1.0ms)[0m  [1m[34mSELECT "order_transitions".* FROM "order_transitions" WHERE "order_transitions"."order_id" = 192 ORDER BY "order_transitions"."sort_key" DESC LIMIT 1 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/models/order.rb:43:in `current_state'
+  [1m[36mLineItem Sum (0.5ms)[0m  [1m[34mSELECT SUM("line_items"."quantity") FROM "line_items" WHERE "line_items"."order_id" = 178 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/index.html.erb:109
+  [1m[36mOrderTransition Load (0.4ms)[0m  [1m[34mSELECT "order_transitions".* FROM "order_transitions" WHERE "order_transitions"."order_id" = 178 ORDER BY "order_transitions"."sort_key" DESC LIMIT 1 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/models/order.rb:43:in `current_state'
+  [1m[36mLineItem Sum (0.6ms)[0m  [1m[34mSELECT SUM("line_items"."quantity") FROM "line_items" WHERE "line_items"."order_id" = 170 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/index.html.erb:109
+  [1m[36mOrderTransition Load (0.8ms)[0m  [1m[34mSELECT "order_transitions".* FROM "order_transitions" WHERE "order_transitions"."order_id" = 170 ORDER BY "order_transitions"."sort_key" DESC LIMIT 1 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/models/order.rb:43:in `current_state'
+  [1m[36mLineItem Sum (0.4ms)[0m  [1m[34mSELECT SUM("line_items"."quantity") FROM "line_items" WHERE "line_items"."order_id" = 163 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/index.html.erb:109
+  [1m[36mOrderTransition Load (0.4ms)[0m  [1m[34mSELECT "order_transitions".* FROM "order_transitions" WHERE "order_transitions"."order_id" = 163 ORDER BY "order_transitions"."sort_key" DESC LIMIT 1 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/models/order.rb:43:in `current_state'
+  [1m[36mLineItem Sum (0.4ms)[0m  [1m[34mSELECT SUM("line_items"."quantity") FROM "line_items" WHERE "line_items"."order_id" = 217 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/index.html.erb:109
+  [1m[36mOrderTransition Load (0.3ms)[0m  [1m[34mSELECT "order_transitions".* FROM "order_transitions" WHERE "order_transitions"."order_id" = 217 ORDER BY "order_transitions"."sort_key" DESC LIMIT 1 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/models/order.rb:43:in `current_state'
+  [1m[36mLineItem Sum (0.5ms)[0m  [1m[34mSELECT SUM("line_items"."quantity") FROM "line_items" WHERE "line_items"."order_id" = 186 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/index.html.erb:109
+  [1m[36mOrderTransition Load (0.4ms)[0m  [1m[34mSELECT "order_transitions".* FROM "order_transitions" WHERE "order_transitions"."order_id" = 186 ORDER BY "order_transitions"."sort_key" DESC LIMIT 1 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/models/order.rb:43:in `current_state'
+  [1m[36mLineItem Sum (1.0ms)[0m  [1m[34mSELECT SUM("line_items"."quantity") FROM "line_items" WHERE "line_items"."order_id" = 220 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/index.html.erb:109
+  [1m[36mOrderTransition Load (0.5ms)[0m  [1m[34mSELECT "order_transitions".* FROM "order_transitions" WHERE "order_transitions"."order_id" = 220 ORDER BY "order_transitions"."sort_key" DESC LIMIT 1 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/models/order.rb:43:in `current_state'
+  [1m[36mLineItem Sum (1.0ms)[0m  [1m[34mSELECT SUM("line_items"."quantity") FROM "line_items" WHERE "line_items"."order_id" = 211 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/index.html.erb:109
+  [1m[36mOrderTransition Load (0.4ms)[0m  [1m[34mSELECT "order_transitions".* FROM "order_transitions" WHERE "order_transitions"."order_id" = 211 ORDER BY "order_transitions"."sort_key" DESC LIMIT 1 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/models/order.rb:43:in `current_state'
+  [1m[36mLineItem Sum (0.4ms)[0m  [1m[34mSELECT SUM("line_items"."quantity") FROM "line_items" WHERE "line_items"."order_id" = 201 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/index.html.erb:109
+  [1m[36mOrderTransition Load (0.3ms)[0m  [1m[34mSELECT "order_transitions".* FROM "order_transitions" WHERE "order_transitions"."order_id" = 201 ORDER BY "order_transitions"."sort_key" DESC LIMIT 1 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/models/order.rb:43:in `current_state'
+  [1m[36mLineItem Sum (0.4ms)[0m  [1m[34mSELECT SUM("line_items"."quantity") FROM "line_items" WHERE "line_items"."order_id" = 169 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/index.html.erb:109
+  [1m[36mOrderTransition Load (0.5ms)[0m  [1m[34mSELECT "order_transitions".* FROM "order_transitions" WHERE "order_transitions"."order_id" = 169 ORDER BY "order_transitions"."sort_key" DESC LIMIT 1 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/models/order.rb:43:in `current_state'
+  [1m[36mLineItem Sum (0.5ms)[0m  [1m[34mSELECT SUM("line_items"."quantity") FROM "line_items" WHERE "line_items"."order_id" = 153 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/index.html.erb:109
+  [1m[36mOrderTransition Load (0.5ms)[0m  [1m[34mSELECT "order_transitions".* FROM "order_transitions" WHERE "order_transitions"."order_id" = 153 ORDER BY "order_transitions"."sort_key" DESC LIMIT 1 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/models/order.rb:43:in `current_state'
+  [1m[36mLineItem Sum (0.4ms)[0m  [1m[34mSELECT SUM("line_items"."quantity") FROM "line_items" WHERE "line_items"."order_id" = 209 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/index.html.erb:109
+  [1m[36mOrderTransition Load (0.3ms)[0m  [1m[34mSELECT "order_transitions".* FROM "order_transitions" WHERE "order_transitions"."order_id" = 209 ORDER BY "order_transitions"."sort_key" DESC LIMIT 1 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/models/order.rb:43:in `current_state'
+  [1m[36mLineItem Sum (0.4ms)[0m  [1m[34mSELECT SUM("line_items"."quantity") FROM "line_items" WHERE "line_items"."order_id" = 188 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/index.html.erb:109
+  [1m[36mOrderTransition Load (0.3ms)[0m  [1m[34mSELECT "order_transitions".* FROM "order_transitions" WHERE "order_transitions"."order_id" = 188 ORDER BY "order_transitions"."sort_key" DESC LIMIT 1 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/models/order.rb:43:in `current_state'
+  [1m[36mLineItem Sum (0.7ms)[0m  [1m[34mSELECT SUM("line_items"."quantity") FROM "line_items" WHERE "line_items"."order_id" = 162 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/index.html.erb:109
+  [1m[36mOrderTransition Load (0.4ms)[0m  [1m[34mSELECT "order_transitions".* FROM "order_transitions" WHERE "order_transitions"."order_id" = 162 ORDER BY "order_transitions"."sort_key" DESC LIMIT 1 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/models/order.rb:43:in `current_state'
+  [1m[36mLineItem Sum (0.4ms)[0m  [1m[34mSELECT SUM("line_items"."quantity") FROM "line_items" WHERE "line_items"."order_id" = 166 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/index.html.erb:109
+  [1m[36mOrderTransition Load (0.4ms)[0m  [1m[34mSELECT "order_transitions".* FROM "order_transitions" WHERE "order_transitions"."order_id" = 166 ORDER BY "order_transitions"."sort_key" DESC LIMIT 1 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/models/order.rb:43:in `current_state'
+  [1m[36mLineItem Sum (0.3ms)[0m  [1m[34mSELECT SUM("line_items"."quantity") FROM "line_items" WHERE "line_items"."order_id" = 185 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/index.html.erb:109
+  [1m[36mOrderTransition Load (0.4ms)[0m  [1m[34mSELECT "order_transitions".* FROM "order_transitions" WHERE "order_transitions"."order_id" = 185 ORDER BY "order_transitions"."sort_key" DESC LIMIT 1 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/models/order.rb:43:in `current_state'
+  [1m[36mLineItem Sum (0.5ms)[0m  [1m[34mSELECT SUM("line_items"."quantity") FROM "line_items" WHERE "line_items"."order_id" = 158 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/index.html.erb:109
+  [1m[36mOrderTransition Load (0.4ms)[0m  [1m[34mSELECT "order_transitions".* FROM "order_transitions" WHERE "order_transitions"."order_id" = 158 ORDER BY "order_transitions"."sort_key" DESC LIMIT 1 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/models/order.rb:43:in `current_state'
+  [1m[36mLineItem Sum (0.3ms)[0m  [1m[34mSELECT SUM("line_items"."quantity") FROM "line_items" WHERE "line_items"."order_id" = 149 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/index.html.erb:109
+  [1m[36mOrderTransition Load (0.8ms)[0m  [1m[34mSELECT "order_transitions".* FROM "order_transitions" WHERE "order_transitions"."order_id" = 149 ORDER BY "order_transitions"."sort_key" DESC LIMIT 1 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/models/order.rb:43:in `current_state'
+  [1m[36mLineItem Sum (0.7ms)[0m  [1m[34mSELECT SUM("line_items"."quantity") FROM "line_items" WHERE "line_items"."order_id" = 194 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/index.html.erb:109
+  [1m[36mOrderTransition Load (0.3ms)[0m  [1m[34mSELECT "order_transitions".* FROM "order_transitions" WHERE "order_transitions"."order_id" = 194 ORDER BY "order_transitions"."sort_key" DESC LIMIT 1 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/models/order.rb:43:in `current_state'
+  [1m[36mLineItem Sum (0.4ms)[0m  [1m[34mSELECT SUM("line_items"."quantity") FROM "line_items" WHERE "line_items"."order_id" = 177 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/index.html.erb:109
+  [1m[36mOrderTransition Load (0.3ms)[0m  [1m[34mSELECT "order_transitions".* FROM "order_transitions" WHERE "order_transitions"."order_id" = 177 ORDER BY "order_transitions"."sort_key" DESC LIMIT 1 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/models/order.rb:43:in `current_state'
+  [1m[36mLineItem Sum (0.4ms)[0m  [1m[34mSELECT SUM("line_items"."quantity") FROM "line_items" WHERE "line_items"."order_id" = 212 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/index.html.erb:109
+  [1m[36mOrderTransition Load (0.3ms)[0m  [1m[34mSELECT "order_transitions".* FROM "order_transitions" WHERE "order_transitions"."order_id" = 212 ORDER BY "order_transitions"."sort_key" DESC LIMIT 1 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/models/order.rb:43:in `current_state'
+  [1m[36mLineItem Sum (0.4ms)[0m  [1m[34mSELECT SUM("line_items"."quantity") FROM "line_items" WHERE "line_items"."order_id" = 196 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/index.html.erb:109
+  [1m[36mOrderTransition Load (0.4ms)[0m  [1m[34mSELECT "order_transitions".* FROM "order_transitions" WHERE "order_transitions"."order_id" = 196 ORDER BY "order_transitions"."sort_key" DESC LIMIT 1 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/models/order.rb:43:in `current_state'
+  [1m[36mLineItem Sum (1.2ms)[0m  [1m[34mSELECT SUM("line_items"."quantity") FROM "line_items" WHERE "line_items"."order_id" = 189 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/index.html.erb:109
+  [1m[36mOrderTransition Load (0.6ms)[0m  [1m[34mSELECT "order_transitions".* FROM "order_transitions" WHERE "order_transitions"."order_id" = 189 ORDER BY "order_transitions"."sort_key" DESC LIMIT 1 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/models/order.rb:43:in `current_state'
+  [1m[36mLineItem Sum (0.3ms)[0m  [1m[34mSELECT SUM("line_items"."quantity") FROM "line_items" WHERE "line_items"."order_id" = 183 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/index.html.erb:109
+  [1m[36mOrderTransition Load (0.8ms)[0m  [1m[34mSELECT "order_transitions".* FROM "order_transitions" WHERE "order_transitions"."order_id" = 183 ORDER BY "order_transitions"."sort_key" DESC LIMIT 1 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/models/order.rb:43:in `current_state'
+  [1m[36mLineItem Sum (0.5ms)[0m  [1m[34mSELECT SUM("line_items"."quantity") FROM "line_items" WHERE "line_items"."order_id" = 218 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/index.html.erb:109
+  [1m[36mOrderTransition Load (0.5ms)[0m  [1m[34mSELECT "order_transitions".* FROM "order_transitions" WHERE "order_transitions"."order_id" = 218 ORDER BY "order_transitions"."sort_key" DESC LIMIT 1 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/models/order.rb:43:in `current_state'
+  [1m[36mLineItem Sum (1.0ms)[0m  [1m[34mSELECT SUM("line_items"."quantity") FROM "line_items" WHERE "line_items"."order_id" = 199 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/index.html.erb:109
+  [1m[36mOrderTransition Load (0.3ms)[0m  [1m[34mSELECT "order_transitions".* FROM "order_transitions" WHERE "order_transitions"."order_id" = 199 ORDER BY "order_transitions"."sort_key" DESC LIMIT 1 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/models/order.rb:43:in `current_state'
+  [1m[36mLineItem Sum (1.0ms)[0m  [1m[34mSELECT SUM("line_items"."quantity") FROM "line_items" WHERE "line_items"."order_id" = 197 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/index.html.erb:109
+  [1m[36mOrderTransition Load (0.7ms)[0m  [1m[34mSELECT "order_transitions".* FROM "order_transitions" WHERE "order_transitions"."order_id" = 197 ORDER BY "order_transitions"."sort_key" DESC LIMIT 1 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/models/order.rb:43:in `current_state'
+  [1m[36mLineItem Sum (0.4ms)[0m  [1m[34mSELECT SUM("line_items"."quantity") FROM "line_items" WHERE "line_items"."order_id" = 155 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/index.html.erb:109
+  [1m[36mOrderTransition Load (0.4ms)[0m  [1m[34mSELECT "order_transitions".* FROM "order_transitions" WHERE "order_transitions"."order_id" = 155 ORDER BY "order_transitions"."sort_key" DESC LIMIT 1 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/models/order.rb:43:in `current_state'
+  [1m[36mCACHE Order Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "orders"[0m
+  ↳ app/views/orders/index.html.erb:139
+  Rendered orders/index.html.erb within layouts/application (Duration: 316.0ms | GC: 14.5ms)
+  Rendered layout layouts/application.html.erb (Duration: 322.4ms | GC: 15.1ms)
+Completed 200 OK in 412ms (Views: 288.4ms | ActiveRecord: 55.6ms (73 queries, 1 cached) | GC: 26.6ms)
+
+
+Started GET "/orders/new" for 127.0.0.1 at 2026-05-05 17:11:27 -0700
+Processing by OrdersController#new as HTML
+  [1m[36mSession Load (0.4ms)[0m  [1m[34mSELECT "sessions".* FROM "sessions" WHERE "sessions"."id" = 6 LIMIT 1 /*action='new',application='Shipright',controller='orders'*/[0m
+  ↳ app/controllers/concerns/authentication.rb:29:in `find_session_by_cookie'
+  Rendering layout layouts/application.html.erb
+  Rendering orders/new.html.erb within layouts/application
+  [1m[36mProduct Load (4.3ms)[0m  [1m[34mSELECT "products".* FROM "products" WHERE "products"."price" != 0.0 ORDER BY "products"."name" ASC /*action='new',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/_line_item_fields.html.erb:8
+  Rendered orders/_line_item_fields.html.erb (Duration: 21.3ms | GC: 0.6ms)
+  Rendered orders/_form.html.erb (Duration: 25.1ms | GC: 0.6ms)
+  Rendered orders/new.html.erb within layouts/application (Duration: 28.0ms | GC: 0.6ms)
+  Rendered layout layouts/application.html.erb (Duration: 29.1ms | GC: 0.6ms)
+Completed 200 OK in 42ms (Views: 26.5ms | ActiveRecord: 4.6ms (2 queries, 0 cached) | GC: 1.0ms)
+
+
+Started POST "/orders" for 127.0.0.1 at 2026-05-05 17:11:40 -0700
+Processing by OrdersController#create as TURBO_STREAM
+  Parameters: {"authenticity_token"=>"[FILTERED]", "order"=>{"line_items_attributes"=>{"0"=>{"_destroy"=>"0", "product_id"=>"311", "quantity"=>"1"}, "1778026293173"=>{"product_id"=>"311", "quantity"=>"1"}}}, "commit"=>"Create Order"}
+  [1m[36mSession Load (0.3ms)[0m  [1m[34mSELECT "sessions".* FROM "sessions" WHERE "sessions"."id" = 6 LIMIT 1 /*action='create',application='Shipright',controller='orders'*/[0m
+  ↳ app/controllers/concerns/authentication.rb:29:in `find_session_by_cookie'
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = 11 LIMIT 1 /*action='create',application='Shipright',controller='orders'*/[0m
+  ↳ app/models/current.rb:3:in `user'
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN /*action='create',application='Shipright',controller='orders'*/[0m
+  ↳ app/models/order.rb:70:in `block in calculate_totals'
+  [1m[36mProduct Load (1.6ms)[0m  [1m[34mSELECT "products".* FROM "products" WHERE "products"."id" = 311 LIMIT 1 /*action='create',application='Shipright',controller='orders'*/[0m
+  ↳ app/models/order.rb:70:in `block in calculate_totals'
+  [1m[36mCACHE Product Load (0.0ms)[0m  [1m[34mSELECT "products".* FROM "products" WHERE "products"."id" = 311 LIMIT 1[0m
+  ↳ app/models/order.rb:70:in `block in calculate_totals'
+  [1m[36mOrder Exists? (0.3ms)[0m  [1m[34mSELECT 1 AS one FROM "orders" WHERE "orders"."order_number" = 'ORD-8GBXO4C7QM' LIMIT 1 /*action='create',application='Shipright',controller='orders'*/[0m
+  ↳ app/controllers/orders_controller.rb:52:in `create'
+  [1m[36mOrder Create (0.7ms)[0m  [1m[32mINSERT INTO "orders" ("order_number", "subtotal", "tax", "total", "user_id", "created_at", "updated_at", "tracking_number") VALUES ('ORD-8GBXO4C7QM', 853.72, 68.3, 922.02, 11, '2026-05-06 00:11:40.657749', '2026-05-06 00:11:40.657749', NULL) RETURNING "id" /*action='create',application='Shipright',controller='orders'*/[0m
+  ↳ app/controllers/orders_controller.rb:52:in `create'
+  [1m[36mPaperTrail::Version Create (0.6ms)[0m  [1m[32mINSERT INTO "versions" ("whodunnit", "created_at", "item_id", "item_type", "event", "object") VALUES (NULL, '2026-05-06 00:11:40.657749', 224, 'Order', 'create', NULL) RETURNING "id" /*action='create',application='Shipright',controller='orders'*/[0m
+  ↳ app/controllers/orders_controller.rb:52:in `create'
+  [1m[36mLineItem Create (0.8ms)[0m  [1m[32mINSERT INTO "line_items" ("order_id", "product_id", "quantity", "unit_price", "total", "created_at", "updated_at") VALUES (224, 311, 1, 426.86, 426.86, '2026-05-06 00:11:40.665212', '2026-05-06 00:11:40.665212') RETURNING "id" /*action='create',application='Shipright',controller='orders'*/[0m
+  ↳ app/controllers/orders_controller.rb:52:in `create'
+  [1m[36mPaperTrail::Version Create (0.5ms)[0m  [1m[32mINSERT INTO "versions" ("whodunnit", "created_at", "item_id", "item_type", "event", "object") VALUES (NULL, '2026-05-06 00:11:40.665212', 686, 'LineItem', 'create', NULL) RETURNING "id" /*action='create',application='Shipright',controller='orders'*/[0m
+  ↳ app/controllers/orders_controller.rb:52:in `create'
+  [1m[36mLineItem Create (0.5ms)[0m  [1m[32mINSERT INTO "line_items" ("order_id", "product_id", "quantity", "unit_price", "total", "created_at", "updated_at") VALUES (224, 311, 1, 426.86, 426.86, '2026-05-06 00:11:40.673700', '2026-05-06 00:11:40.673700') RETURNING "id" /*action='create',application='Shipright',controller='orders'*/[0m
+  ↳ app/controllers/orders_controller.rb:52:in `create'
+  [1m[36mPaperTrail::Version Create (0.4ms)[0m  [1m[32mINSERT INTO "versions" ("whodunnit", "created_at", "item_id", "item_type", "event", "object") VALUES (NULL, '2026-05-06 00:11:40.673700', 687, 'LineItem', 'create', NULL) RETURNING "id" /*action='create',application='Shipright',controller='orders'*/[0m
+  ↳ app/controllers/orders_controller.rb:52:in `create'
+  [1m[36mTRANSACTION (0.6ms)[0m  [1m[35mCOMMIT /*action='create',application='Shipright',controller='orders'*/[0m
+  ↳ app/controllers/orders_controller.rb:52:in `create'
+Redirected to http://127.0.0.1:3000/orders/224
+↳ app/controllers/orders_controller.rb:53:in `create'
+Completed 302 Found in 46ms (ActiveRecord: 6.7ms (11 queries, 1 cached) | GC: 0.9ms)
+
+
+Started GET "/orders/224" for 127.0.0.1 at 2026-05-05 17:11:40 -0700
+Processing by OrdersController#show as TURBO_STREAM
+  Parameters: {"id"=>"224"}
+  [1m[36mSession Load (0.5ms)[0m  [1m[34mSELECT "sessions".* FROM "sessions" WHERE "sessions"."id" = 6 LIMIT 1 /*action='show',application='Shipright',controller='orders'*/[0m
+  ↳ app/controllers/concerns/authentication.rb:29:in `find_session_by_cookie'
+  [1m[36mOrder Load (0.4ms)[0m  [1m[34mSELECT "orders".* FROM "orders" WHERE "orders"."id" = 224 LIMIT 1 /*action='show',application='Shipright',controller='orders'*/[0m
+  ↳ app/controllers/orders_controller.rb:117:in `set_order'
+  Rendering layout layouts/application.html.erb
+  Rendering orders/show.html.erb within layouts/application
+  [1m[36mOrderTransition Load (0.4ms)[0m  [1m[34mSELECT "order_transitions".* FROM "order_transitions" WHERE "order_transitions"."order_id" = 224 ORDER BY "order_transitions"."sort_key" DESC LIMIT 1 /*action='show',application='Shipright',controller='orders'*/[0m
+  ↳ app/models/order.rb:43:in `current_state'
+  [1m[36mUser Load (1.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = 11 LIMIT 1 /*action='show',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/show.html.erb:44
+  [1m[36mLineItem Load (0.3ms)[0m  [1m[34mSELECT "line_items".* FROM "line_items" WHERE "line_items"."order_id" = 224 /*action='show',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/show.html.erb:67
+  [1m[36mProduct Load (0.3ms)[0m  [1m[34mSELECT "products".* FROM "products" WHERE "products"."id" = 311 /*action='show',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/show.html.erb:67
+  Rendered orders/show.html.erb within layouts/application (Duration: 15.1ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 15.3ms | GC: 0.0ms)
+Completed 500 Internal Server Error in 30ms (ActiveRecord: 4.9ms (6 queries, 0 cached) | GC: 0.0ms)
+
+
+  
+ActionView::Template::Error (undefined method `to_state' for an instance of String)
+Caused by: NoMethodError (undefined method `to_state' for an instance of String)
+
+Information for: ActionView::Template::Error (undefined method `to_state' for an instance of String):
+    167:         <div class="px-4 py-5 sm:p-6 space-y-3">
+    168:           <% @order.state_machine.allowed_transitions.each do |transition| %>
+    169:             <%= button_to "Transition to #{transition.to_state.capitalize}", 
+    170:                 order_path(@order, to_state: transition.to_state),
+    171:                 method: :patch,
+    172:                 class: "w-full inline-flex justify-center items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500",
+    173:                 form: { data: { turbo_confirm: "Are you sure you want to transition this order to #{transition.to_state}?" } } %>
+  
+app/views/orders/show.html.erb:170
+app/views/orders/show.html.erb:169:in `each'
+app/views/orders/show.html.erb:169
+
+Information for cause: NoMethodError (undefined method `to_state' for an instance of String):
+  
+app/views/orders/show.html.erb:170
+app/views/orders/show.html.erb:169:in `each'
+app/views/orders/show.html.erb:169
+Started GET "/favicon.ico" for 127.0.0.1 at 2026-05-05 17:11:52 -0700
+Started GET "/orders" for 127.0.0.1 at 2026-05-05 17:11:52 -0700
+Processing by OrdersController#index as HTML
+  
+ActionController::RoutingError (No route matches [GET] "/favicon.ico"):
+  
+  [1m[36mSession Load (0.9ms)[0m  [1m[34mSELECT "sessions".* FROM "sessions" WHERE "sessions"."id" = 6 LIMIT 1 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/controllers/concerns/authentication.rb:29:in `find_session_by_cookie'
+  [1m[36mOrder Count (1.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "orders" LEFT OUTER JOIN order_transitions AS most_recent_order_transition ON orders.id = most_recent_order_transition.order_id AND most_recent_order_transition.most_recent = TRUE WHERE (most_recent_order_transition.to_state IN ('pending') OR most_recent_order_transition.to_state IS NULL) /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/controllers/orders_controller.rb:29:in `block in index'
+  [1m[36mOrder Count (0.7ms)[0m  [1m[34mSELECT COUNT(*) FROM "orders" LEFT OUTER JOIN order_transitions AS most_recent_order_transition ON orders.id = most_recent_order_transition.order_id AND most_recent_order_transition.most_recent = TRUE WHERE (most_recent_order_transition.to_state IN ('approved') AND most_recent_order_transition.to_state IS NOT NULL) /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/controllers/orders_controller.rb:29:in `block in index'
+  [1m[36mOrder Count (1.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "orders" LEFT OUTER JOIN order_transitions AS most_recent_order_transition ON orders.id = most_recent_order_transition.order_id AND most_recent_order_transition.most_recent = TRUE WHERE (most_recent_order_transition.to_state IN ('shipped') AND most_recent_order_transition.to_state IS NOT NULL) /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/controllers/orders_controller.rb:29:in `block in index'
+  [1m[36mOrder Count (2.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "orders" LEFT OUTER JOIN order_transitions AS most_recent_order_transition ON orders.id = most_recent_order_transition.order_id AND most_recent_order_transition.most_recent = TRUE WHERE (most_recent_order_transition.to_state IN ('delivered') AND most_recent_order_transition.to_state IS NOT NULL) /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/controllers/orders_controller.rb:29:in `block in index'
+  [1m[36mOrder Count (1.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "orders" LEFT OUTER JOIN order_transitions AS most_recent_order_transition ON orders.id = most_recent_order_transition.order_id AND most_recent_order_transition.most_recent = TRUE WHERE (most_recent_order_transition.to_state IN ('canceled') AND most_recent_order_transition.to_state IS NOT NULL) /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/controllers/orders_controller.rb:29:in `block in index'
+  Rendering layout layouts/application.html.erb
+  Rendering orders/index.html.erb within layouts/application
+  [1m[36mOrder Count (3.5ms)[0m  [1m[34mSELECT COUNT(*) FROM "orders" /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/index.html.erb:42
+  [1m[36mOrder Exists? (0.4ms)[0m  [1m[34mSELECT 1 AS one FROM "orders" LIMIT 1 OFFSET 0 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/index.html.erb:79
+  [1m[36mOrder Load (0.5ms)[0m  [1m[34mSELECT "orders".* FROM "orders" ORDER BY "orders"."created_at" DESC LIMIT 30 OFFSET 0 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/index.html.erb:97
+  [1m[36mUser Load (3.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = 11 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/index.html.erb:97
+  [1m[36mLineItem Load (4.4ms)[0m  [1m[34mSELECT "line_items".* FROM "line_items" WHERE "line_items"."order_id" IN (224, 215, 198, 192, 178, 170, 163, 217, 186, 220, 211, 201, 169, 153, 209, 188, 162, 166, 185, 158, 149, 194, 177, 212, 196, 189, 183, 218, 199, 197) /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/index.html.erb:97
+  [1m[36mProduct Load (0.9ms)[0m  [1m[34mSELECT "products".* FROM "products" WHERE "products"."id" IN (311, 324, 318, 323, 313, 322, 315, 307, 305, 329, 328, 325, 306, 327, 321, 302, 316, 303, 312, 330, 326, 320, 317, 314, 308, 309, 304, 319, 301) /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/index.html.erb:97
+  [1m[36mLineItem Sum (0.7ms)[0m  [1m[34mSELECT SUM("line_items"."quantity") FROM "line_items" WHERE "line_items"."order_id" = 224 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/index.html.erb:109
+  [1m[36mOrderTransition Load (0.5ms)[0m  [1m[34mSELECT "order_transitions".* FROM "order_transitions" WHERE "order_transitions"."order_id" = 224 ORDER BY "order_transitions"."sort_key" DESC LIMIT 1 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/models/order.rb:43:in `current_state'
+  [1m[36mLineItem Sum (0.6ms)[0m  [1m[34mSELECT SUM("line_items"."quantity") FROM "line_items" WHERE "line_items"."order_id" = 215 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/index.html.erb:109
+  [1m[36mOrderTransition Load (0.7ms)[0m  [1m[34mSELECT "order_transitions".* FROM "order_transitions" WHERE "order_transitions"."order_id" = 215 ORDER BY "order_transitions"."sort_key" DESC LIMIT 1 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/models/order.rb:43:in `current_state'
+  [1m[36mLineItem Sum (3.5ms)[0m  [1m[34mSELECT SUM("line_items"."quantity") FROM "line_items" WHERE "line_items"."order_id" = 198 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/index.html.erb:109
+  [1m[36mOrderTransition Load (15.7ms)[0m  [1m[34mSELECT "order_transitions".* FROM "order_transitions" WHERE "order_transitions"."order_id" = 198 ORDER BY "order_transitions"."sort_key" DESC LIMIT 1 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/models/order.rb:43:in `current_state'
+  [1m[36mLineItem Sum (0.5ms)[0m  [1m[34mSELECT SUM("line_items"."quantity") FROM "line_items" WHERE "line_items"."order_id" = 192 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/index.html.erb:109
+  [1m[36mOrderTransition Load (2.1ms)[0m  [1m[34mSELECT "order_transitions".* FROM "order_transitions" WHERE "order_transitions"."order_id" = 192 ORDER BY "order_transitions"."sort_key" DESC LIMIT 1 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/models/order.rb:43:in `current_state'
+  [1m[36mLineItem Sum (1.4ms)[0m  [1m[34mSELECT SUM("line_items"."quantity") FROM "line_items" WHERE "line_items"."order_id" = 178 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/index.html.erb:109
+  [1m[36mOrderTransition Load (0.8ms)[0m  [1m[34mSELECT "order_transitions".* FROM "order_transitions" WHERE "order_transitions"."order_id" = 178 ORDER BY "order_transitions"."sort_key" DESC LIMIT 1 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/models/order.rb:43:in `current_state'
+  [1m[36mLineItem Sum (0.7ms)[0m  [1m[34mSELECT SUM("line_items"."quantity") FROM "line_items" WHERE "line_items"."order_id" = 170 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/index.html.erb:109
+  [1m[36mOrderTransition Load (0.6ms)[0m  [1m[34mSELECT "order_transitions".* FROM "order_transitions" WHERE "order_transitions"."order_id" = 170 ORDER BY "order_transitions"."sort_key" DESC LIMIT 1 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/models/order.rb:43:in `current_state'
+  [1m[36mLineItem Sum (0.5ms)[0m  [1m[34mSELECT SUM("line_items"."quantity") FROM "line_items" WHERE "line_items"."order_id" = 163 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/index.html.erb:109
+  [1m[36mOrderTransition Load (0.4ms)[0m  [1m[34mSELECT "order_transitions".* FROM "order_transitions" WHERE "order_transitions"."order_id" = 163 ORDER BY "order_transitions"."sort_key" DESC LIMIT 1 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/models/order.rb:43:in `current_state'
+  [1m[36mLineItem Sum (1.2ms)[0m  [1m[34mSELECT SUM("line_items"."quantity") FROM "line_items" WHERE "line_items"."order_id" = 217 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/index.html.erb:109
+  [1m[36mOrderTransition Load (1.3ms)[0m  [1m[34mSELECT "order_transitions".* FROM "order_transitions" WHERE "order_transitions"."order_id" = 217 ORDER BY "order_transitions"."sort_key" DESC LIMIT 1 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/models/order.rb:43:in `current_state'
+  [1m[36mLineItem Sum (1.3ms)[0m  [1m[34mSELECT SUM("line_items"."quantity") FROM "line_items" WHERE "line_items"."order_id" = 186 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/index.html.erb:109
+  [1m[36mOrderTransition Load (2.5ms)[0m  [1m[34mSELECT "order_transitions".* FROM "order_transitions" WHERE "order_transitions"."order_id" = 186 ORDER BY "order_transitions"."sort_key" DESC LIMIT 1 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/models/order.rb:43:in `current_state'
+  [1m[36mLineItem Sum (0.6ms)[0m  [1m[34mSELECT SUM("line_items"."quantity") FROM "line_items" WHERE "line_items"."order_id" = 220 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/index.html.erb:109
+  [1m[36mOrderTransition Load (0.6ms)[0m  [1m[34mSELECT "order_transitions".* FROM "order_transitions" WHERE "order_transitions"."order_id" = 220 ORDER BY "order_transitions"."sort_key" DESC LIMIT 1 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/models/order.rb:43:in `current_state'
+  [1m[36mLineItem Sum (0.4ms)[0m  [1m[34mSELECT SUM("line_items"."quantity") FROM "line_items" WHERE "line_items"."order_id" = 211 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/index.html.erb:109
+  [1m[36mOrderTransition Load (0.9ms)[0m  [1m[34mSELECT "order_transitions".* FROM "order_transitions" WHERE "order_transitions"."order_id" = 211 ORDER BY "order_transitions"."sort_key" DESC LIMIT 1 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/models/order.rb:43:in `current_state'
+  [1m[36mLineItem Sum (0.5ms)[0m  [1m[34mSELECT SUM("line_items"."quantity") FROM "line_items" WHERE "line_items"."order_id" = 201 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/index.html.erb:109
+  [1m[36mOrderTransition Load (0.4ms)[0m  [1m[34mSELECT "order_transitions".* FROM "order_transitions" WHERE "order_transitions"."order_id" = 201 ORDER BY "order_transitions"."sort_key" DESC LIMIT 1 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/models/order.rb:43:in `current_state'
+  [1m[36mLineItem Sum (0.8ms)[0m  [1m[34mSELECT SUM("line_items"."quantity") FROM "line_items" WHERE "line_items"."order_id" = 169 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/index.html.erb:109
+  [1m[36mOrderTransition Load (0.6ms)[0m  [1m[34mSELECT "order_transitions".* FROM "order_transitions" WHERE "order_transitions"."order_id" = 169 ORDER BY "order_transitions"."sort_key" DESC LIMIT 1 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/models/order.rb:43:in `current_state'
+  [1m[36mLineItem Sum (0.5ms)[0m  [1m[34mSELECT SUM("line_items"."quantity") FROM "line_items" WHERE "line_items"."order_id" = 153 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/index.html.erb:109
+  [1m[36mOrderTransition Load (0.8ms)[0m  [1m[34mSELECT "order_transitions".* FROM "order_transitions" WHERE "order_transitions"."order_id" = 153 ORDER BY "order_transitions"."sort_key" DESC LIMIT 1 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/models/order.rb:43:in `current_state'
+  [1m[36mLineItem Sum (1.2ms)[0m  [1m[34mSELECT SUM("line_items"."quantity") FROM "line_items" WHERE "line_items"."order_id" = 209 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/index.html.erb:109
+  [1m[36mOrderTransition Load (0.3ms)[0m  [1m[34mSELECT "order_transitions".* FROM "order_transitions" WHERE "order_transitions"."order_id" = 209 ORDER BY "order_transitions"."sort_key" DESC LIMIT 1 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/models/order.rb:43:in `current_state'
+  [1m[36mLineItem Sum (0.8ms)[0m  [1m[34mSELECT SUM("line_items"."quantity") FROM "line_items" WHERE "line_items"."order_id" = 188 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/index.html.erb:109
+  [1m[36mOrderTransition Load (0.4ms)[0m  [1m[34mSELECT "order_transitions".* FROM "order_transitions" WHERE "order_transitions"."order_id" = 188 ORDER BY "order_transitions"."sort_key" DESC LIMIT 1 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/models/order.rb:43:in `current_state'
+  [1m[36mLineItem Sum (0.4ms)[0m  [1m[34mSELECT SUM("line_items"."quantity") FROM "line_items" WHERE "line_items"."order_id" = 162 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/index.html.erb:109
+  [1m[36mOrderTransition Load (0.5ms)[0m  [1m[34mSELECT "order_transitions".* FROM "order_transitions" WHERE "order_transitions"."order_id" = 162 ORDER BY "order_transitions"."sort_key" DESC LIMIT 1 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/models/order.rb:43:in `current_state'
+  [1m[36mLineItem Sum (0.4ms)[0m  [1m[34mSELECT SUM("line_items"."quantity") FROM "line_items" WHERE "line_items"."order_id" = 166 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/index.html.erb:109
+  [1m[36mOrderTransition Load (0.5ms)[0m  [1m[34mSELECT "order_transitions".* FROM "order_transitions" WHERE "order_transitions"."order_id" = 166 ORDER BY "order_transitions"."sort_key" DESC LIMIT 1 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/models/order.rb:43:in `current_state'
+  [1m[36mLineItem Sum (0.4ms)[0m  [1m[34mSELECT SUM("line_items"."quantity") FROM "line_items" WHERE "line_items"."order_id" = 185 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/index.html.erb:109
+  [1m[36mOrderTransition Load (0.4ms)[0m  [1m[34mSELECT "order_transitions".* FROM "order_transitions" WHERE "order_transitions"."order_id" = 185 ORDER BY "order_transitions"."sort_key" DESC LIMIT 1 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/models/order.rb:43:in `current_state'
+  [1m[36mLineItem Sum (0.3ms)[0m  [1m[34mSELECT SUM("line_items"."quantity") FROM "line_items" WHERE "line_items"."order_id" = 158 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/index.html.erb:109
+  [1m[36mOrderTransition Load (0.7ms)[0m  [1m[34mSELECT "order_transitions".* FROM "order_transitions" WHERE "order_transitions"."order_id" = 158 ORDER BY "order_transitions"."sort_key" DESC LIMIT 1 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/models/order.rb:43:in `current_state'
+  [1m[36mLineItem Sum (0.4ms)[0m  [1m[34mSELECT SUM("line_items"."quantity") FROM "line_items" WHERE "line_items"."order_id" = 149 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/index.html.erb:109
+  [1m[36mOrderTransition Load (0.5ms)[0m  [1m[34mSELECT "order_transitions".* FROM "order_transitions" WHERE "order_transitions"."order_id" = 149 ORDER BY "order_transitions"."sort_key" DESC LIMIT 1 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/models/order.rb:43:in `current_state'
+  [1m[36mLineItem Sum (0.4ms)[0m  [1m[34mSELECT SUM("line_items"."quantity") FROM "line_items" WHERE "line_items"."order_id" = 194 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/index.html.erb:109
+  [1m[36mOrderTransition Load (0.3ms)[0m  [1m[34mSELECT "order_transitions".* FROM "order_transitions" WHERE "order_transitions"."order_id" = 194 ORDER BY "order_transitions"."sort_key" DESC LIMIT 1 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/models/order.rb:43:in `current_state'
+  [1m[36mLineItem Sum (0.4ms)[0m  [1m[34mSELECT SUM("line_items"."quantity") FROM "line_items" WHERE "line_items"."order_id" = 177 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/index.html.erb:109
+  [1m[36mOrderTransition Load (0.3ms)[0m  [1m[34mSELECT "order_transitions".* FROM "order_transitions" WHERE "order_transitions"."order_id" = 177 ORDER BY "order_transitions"."sort_key" DESC LIMIT 1 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/models/order.rb:43:in `current_state'
+  [1m[36mLineItem Sum (0.3ms)[0m  [1m[34mSELECT SUM("line_items"."quantity") FROM "line_items" WHERE "line_items"."order_id" = 212 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/index.html.erb:109
+  [1m[36mOrderTransition Load (0.3ms)[0m  [1m[34mSELECT "order_transitions".* FROM "order_transitions" WHERE "order_transitions"."order_id" = 212 ORDER BY "order_transitions"."sort_key" DESC LIMIT 1 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/models/order.rb:43:in `current_state'
+  [1m[36mLineItem Sum (0.5ms)[0m  [1m[34mSELECT SUM("line_items"."quantity") FROM "line_items" WHERE "line_items"."order_id" = 196 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/index.html.erb:109
+  [1m[36mOrderTransition Load (0.3ms)[0m  [1m[34mSELECT "order_transitions".* FROM "order_transitions" WHERE "order_transitions"."order_id" = 196 ORDER BY "order_transitions"."sort_key" DESC LIMIT 1 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/models/order.rb:43:in `current_state'
+  [1m[36mLineItem Sum (0.3ms)[0m  [1m[34mSELECT SUM("line_items"."quantity") FROM "line_items" WHERE "line_items"."order_id" = 189 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/index.html.erb:109
+  [1m[36mOrderTransition Load (0.4ms)[0m  [1m[34mSELECT "order_transitions".* FROM "order_transitions" WHERE "order_transitions"."order_id" = 189 ORDER BY "order_transitions"."sort_key" DESC LIMIT 1 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/models/order.rb:43:in `current_state'
+  [1m[36mLineItem Sum (0.4ms)[0m  [1m[34mSELECT SUM("line_items"."quantity") FROM "line_items" WHERE "line_items"."order_id" = 183 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/index.html.erb:109
+  [1m[36mOrderTransition Load (0.3ms)[0m  [1m[34mSELECT "order_transitions".* FROM "order_transitions" WHERE "order_transitions"."order_id" = 183 ORDER BY "order_transitions"."sort_key" DESC LIMIT 1 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/models/order.rb:43:in `current_state'
+  [1m[36mLineItem Sum (0.9ms)[0m  [1m[34mSELECT SUM("line_items"."quantity") FROM "line_items" WHERE "line_items"."order_id" = 218 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/index.html.erb:109
+  [1m[36mOrderTransition Load (0.5ms)[0m  [1m[34mSELECT "order_transitions".* FROM "order_transitions" WHERE "order_transitions"."order_id" = 218 ORDER BY "order_transitions"."sort_key" DESC LIMIT 1 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/models/order.rb:43:in `current_state'
+  [1m[36mLineItem Sum (0.3ms)[0m  [1m[34mSELECT SUM("line_items"."quantity") FROM "line_items" WHERE "line_items"."order_id" = 199 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/index.html.erb:109
+  [1m[36mOrderTransition Load (0.3ms)[0m  [1m[34mSELECT "order_transitions".* FROM "order_transitions" WHERE "order_transitions"."order_id" = 199 ORDER BY "order_transitions"."sort_key" DESC LIMIT 1 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/models/order.rb:43:in `current_state'
+  [1m[36mLineItem Sum (0.4ms)[0m  [1m[34mSELECT SUM("line_items"."quantity") FROM "line_items" WHERE "line_items"."order_id" = 197 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/index.html.erb:109
+  [1m[36mOrderTransition Load (0.4ms)[0m  [1m[34mSELECT "order_transitions".* FROM "order_transitions" WHERE "order_transitions"."order_id" = 197 ORDER BY "order_transitions"."sort_key" DESC LIMIT 1 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/models/order.rb:43:in `current_state'
+  [1m[36mCACHE Order Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "orders"[0m
+  ↳ app/views/orders/index.html.erb:139
+  Rendered orders/index.html.erb within layouts/application (Duration: 274.6ms | GC: 9.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 276.4ms | GC: 9.0ms)
+Completed 200 OK in 316ms (Views: 211.6ms | ActiveRecord: 73.6ms (73 queries, 1 cached) | GC: 9.0ms)
+
+
+Started GET "/orders" for 127.0.0.1 at 2026-05-05 17:11:53 -0700
+Processing by OrdersController#index as HTML
+  [1m[36mSession Load (0.3ms)[0m  [1m[34mSELECT "sessions".* FROM "sessions" WHERE "sessions"."id" = 6 LIMIT 1 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/controllers/concerns/authentication.rb:29:in `find_session_by_cookie'
+  [1m[36mOrder Count (0.7ms)[0m  [1m[34mSELECT COUNT(*) FROM "orders" LEFT OUTER JOIN order_transitions AS most_recent_order_transition ON orders.id = most_recent_order_transition.order_id AND most_recent_order_transition.most_recent = TRUE WHERE (most_recent_order_transition.to_state IN ('pending') OR most_recent_order_transition.to_state IS NULL) /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/controllers/orders_controller.rb:29:in `block in index'
+  [1m[36mOrder Count (7.6ms)[0m  [1m[34mSELECT COUNT(*) FROM "orders" LEFT OUTER JOIN order_transitions AS most_recent_order_transition ON orders.id = most_recent_order_transition.order_id AND most_recent_order_transition.most_recent = TRUE WHERE (most_recent_order_transition.to_state IN ('approved') AND most_recent_order_transition.to_state IS NOT NULL) /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/controllers/orders_controller.rb:29:in `block in index'
+  [1m[36mOrder Count (0.6ms)[0m  [1m[34mSELECT COUNT(*) FROM "orders" LEFT OUTER JOIN order_transitions AS most_recent_order_transition ON orders.id = most_recent_order_transition.order_id AND most_recent_order_transition.most_recent = TRUE WHERE (most_recent_order_transition.to_state IN ('shipped') AND most_recent_order_transition.to_state IS NOT NULL) /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/controllers/orders_controller.rb:29:in `block in index'
+  [1m[36mOrder Count (0.8ms)[0m  [1m[34mSELECT COUNT(*) FROM "orders" LEFT OUTER JOIN order_transitions AS most_recent_order_transition ON orders.id = most_recent_order_transition.order_id AND most_recent_order_transition.most_recent = TRUE WHERE (most_recent_order_transition.to_state IN ('delivered') AND most_recent_order_transition.to_state IS NOT NULL) /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/controllers/orders_controller.rb:29:in `block in index'
+  [1m[36mOrder Count (1.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "orders" LEFT OUTER JOIN order_transitions AS most_recent_order_transition ON orders.id = most_recent_order_transition.order_id AND most_recent_order_transition.most_recent = TRUE WHERE (most_recent_order_transition.to_state IN ('canceled') AND most_recent_order_transition.to_state IS NOT NULL) /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/controllers/orders_controller.rb:29:in `block in index'
+  Rendering layout layouts/application.html.erb
+  Rendering orders/index.html.erb within layouts/application
+  [1m[36mOrder Count (0.3ms)[0m  [1m[34mSELECT COUNT(*) FROM "orders" /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/index.html.erb:42
+  [1m[36mOrder Exists? (0.3ms)[0m  [1m[34mSELECT 1 AS one FROM "orders" LIMIT 1 OFFSET 0 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/index.html.erb:79
+  [1m[36mOrder Load (0.5ms)[0m  [1m[34mSELECT "orders".* FROM "orders" ORDER BY "orders"."created_at" DESC LIMIT 30 OFFSET 0 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/index.html.erb:97
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = 11 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/index.html.erb:97
+  [1m[36mLineItem Load (0.6ms)[0m  [1m[34mSELECT "line_items".* FROM "line_items" WHERE "line_items"."order_id" IN (224, 215, 198, 192, 178, 170, 163, 217, 186, 220, 211, 201, 169, 153, 209, 188, 162, 166, 185, 158, 149, 194, 177, 212, 196, 189, 183, 218, 199, 197) /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/index.html.erb:97
+  [1m[36mProduct Load (0.6ms)[0m  [1m[34mSELECT "products".* FROM "products" WHERE "products"."id" IN (311, 324, 318, 323, 313, 322, 315, 307, 305, 329, 328, 325, 306, 327, 321, 302, 316, 303, 312, 330, 326, 320, 317, 314, 308, 309, 304, 319, 301) /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/index.html.erb:97
+  [1m[36mLineItem Sum (0.5ms)[0m  [1m[34mSELECT SUM("line_items"."quantity") FROM "line_items" WHERE "line_items"."order_id" = 224 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/index.html.erb:109
+  [1m[36mOrderTransition Load (0.6ms)[0m  [1m[34mSELECT "order_transitions".* FROM "order_transitions" WHERE "order_transitions"."order_id" = 224 ORDER BY "order_transitions"."sort_key" DESC LIMIT 1 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/models/order.rb:43:in `current_state'
+  [1m[36mLineItem Sum (0.5ms)[0m  [1m[34mSELECT SUM("line_items"."quantity") FROM "line_items" WHERE "line_items"."order_id" = 215 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/index.html.erb:109
+  [1m[36mOrderTransition Load (2.9ms)[0m  [1m[34mSELECT "order_transitions".* FROM "order_transitions" WHERE "order_transitions"."order_id" = 215 ORDER BY "order_transitions"."sort_key" DESC LIMIT 1 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/models/order.rb:43:in `current_state'
+  [1m[36mLineItem Sum (0.5ms)[0m  [1m[34mSELECT SUM("line_items"."quantity") FROM "line_items" WHERE "line_items"."order_id" = 198 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/index.html.erb:109
+  [1m[36mOrderTransition Load (2.0ms)[0m  [1m[34mSELECT "order_transitions".* FROM "order_transitions" WHERE "order_transitions"."order_id" = 198 ORDER BY "order_transitions"."sort_key" DESC LIMIT 1 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/models/order.rb:43:in `current_state'
+  [1m[36mLineItem Sum (1.7ms)[0m  [1m[34mSELECT SUM("line_items"."quantity") FROM "line_items" WHERE "line_items"."order_id" = 192 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/index.html.erb:109
+  [1m[36mOrderTransition Load (2.2ms)[0m  [1m[34mSELECT "order_transitions".* FROM "order_transitions" WHERE "order_transitions"."order_id" = 192 ORDER BY "order_transitions"."sort_key" DESC LIMIT 1 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/models/order.rb:43:in `current_state'
+  [1m[36mLineItem Sum (0.7ms)[0m  [1m[34mSELECT SUM("line_items"."quantity") FROM "line_items" WHERE "line_items"."order_id" = 178 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/index.html.erb:109
+  [1m[36mOrderTransition Load (0.5ms)[0m  [1m[34mSELECT "order_transitions".* FROM "order_transitions" WHERE "order_transitions"."order_id" = 178 ORDER BY "order_transitions"."sort_key" DESC LIMIT 1 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/models/order.rb:43:in `current_state'
+  [1m[36mLineItem Sum (2.3ms)[0m  [1m[34mSELECT SUM("line_items"."quantity") FROM "line_items" WHERE "line_items"."order_id" = 170 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/index.html.erb:109
+  [1m[36mOrderTransition Load (0.6ms)[0m  [1m[34mSELECT "order_transitions".* FROM "order_transitions" WHERE "order_transitions"."order_id" = 170 ORDER BY "order_transitions"."sort_key" DESC LIMIT 1 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/models/order.rb:43:in `current_state'
+  [1m[36mLineItem Sum (0.4ms)[0m  [1m[34mSELECT SUM("line_items"."quantity") FROM "line_items" WHERE "line_items"."order_id" = 163 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/index.html.erb:109
+  [1m[36mOrderTransition Load (0.8ms)[0m  [1m[34mSELECT "order_transitions".* FROM "order_transitions" WHERE "order_transitions"."order_id" = 163 ORDER BY "order_transitions"."sort_key" DESC LIMIT 1 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/models/order.rb:43:in `current_state'
+  [1m[36mLineItem Sum (0.9ms)[0m  [1m[34mSELECT SUM("line_items"."quantity") FROM "line_items" WHERE "line_items"."order_id" = 217 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/index.html.erb:109
+  [1m[36mOrderTransition Load (0.5ms)[0m  [1m[34mSELECT "order_transitions".* FROM "order_transitions" WHERE "order_transitions"."order_id" = 217 ORDER BY "order_transitions"."sort_key" DESC LIMIT 1 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/models/order.rb:43:in `current_state'
+  [1m[36mLineItem Sum (0.7ms)[0m  [1m[34mSELECT SUM("line_items"."quantity") FROM "line_items" WHERE "line_items"."order_id" = 186 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/index.html.erb:109
+  [1m[36mOrderTransition Load (0.8ms)[0m  [1m[34mSELECT "order_transitions".* FROM "order_transitions" WHERE "order_transitions"."order_id" = 186 ORDER BY "order_transitions"."sort_key" DESC LIMIT 1 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/models/order.rb:43:in `current_state'
+  [1m[36mLineItem Sum (0.4ms)[0m  [1m[34mSELECT SUM("line_items"."quantity") FROM "line_items" WHERE "line_items"."order_id" = 220 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/index.html.erb:109
+  [1m[36mOrderTransition Load (0.5ms)[0m  [1m[34mSELECT "order_transitions".* FROM "order_transitions" WHERE "order_transitions"."order_id" = 220 ORDER BY "order_transitions"."sort_key" DESC LIMIT 1 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/models/order.rb:43:in `current_state'
+  [1m[36mLineItem Sum (0.3ms)[0m  [1m[34mSELECT SUM("line_items"."quantity") FROM "line_items" WHERE "line_items"."order_id" = 211 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/index.html.erb:109
+  [1m[36mOrderTransition Load (0.4ms)[0m  [1m[34mSELECT "order_transitions".* FROM "order_transitions" WHERE "order_transitions"."order_id" = 211 ORDER BY "order_transitions"."sort_key" DESC LIMIT 1 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/models/order.rb:43:in `current_state'
+  [1m[36mLineItem Sum (0.4ms)[0m  [1m[34mSELECT SUM("line_items"."quantity") FROM "line_items" WHERE "line_items"."order_id" = 201 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/index.html.erb:109
+  [1m[36mOrderTransition Load (0.4ms)[0m  [1m[34mSELECT "order_transitions".* FROM "order_transitions" WHERE "order_transitions"."order_id" = 201 ORDER BY "order_transitions"."sort_key" DESC LIMIT 1 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/models/order.rb:43:in `current_state'
+  [1m[36mLineItem Sum (0.5ms)[0m  [1m[34mSELECT SUM("line_items"."quantity") FROM "line_items" WHERE "line_items"."order_id" = 169 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/index.html.erb:109
+  [1m[36mOrderTransition Load (0.4ms)[0m  [1m[34mSELECT "order_transitions".* FROM "order_transitions" WHERE "order_transitions"."order_id" = 169 ORDER BY "order_transitions"."sort_key" DESC LIMIT 1 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/models/order.rb:43:in `current_state'
+  [1m[36mLineItem Sum (0.9ms)[0m  [1m[34mSELECT SUM("line_items"."quantity") FROM "line_items" WHERE "line_items"."order_id" = 153 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/index.html.erb:109
+  [1m[36mOrderTransition Load (0.5ms)[0m  [1m[34mSELECT "order_transitions".* FROM "order_transitions" WHERE "order_transitions"."order_id" = 153 ORDER BY "order_transitions"."sort_key" DESC LIMIT 1 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/models/order.rb:43:in `current_state'
+  [1m[36mLineItem Sum (0.3ms)[0m  [1m[34mSELECT SUM("line_items"."quantity") FROM "line_items" WHERE "line_items"."order_id" = 209 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/index.html.erb:109
+  [1m[36mOrderTransition Load (0.5ms)[0m  [1m[34mSELECT "order_transitions".* FROM "order_transitions" WHERE "order_transitions"."order_id" = 209 ORDER BY "order_transitions"."sort_key" DESC LIMIT 1 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/models/order.rb:43:in `current_state'
+  [1m[36mLineItem Sum (0.4ms)[0m  [1m[34mSELECT SUM("line_items"."quantity") FROM "line_items" WHERE "line_items"."order_id" = 188 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/index.html.erb:109
+  [1m[36mOrderTransition Load (0.5ms)[0m  [1m[34mSELECT "order_transitions".* FROM "order_transitions" WHERE "order_transitions"."order_id" = 188 ORDER BY "order_transitions"."sort_key" DESC LIMIT 1 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/models/order.rb:43:in `current_state'
+  [1m[36mLineItem Sum (0.4ms)[0m  [1m[34mSELECT SUM("line_items"."quantity") FROM "line_items" WHERE "line_items"."order_id" = 162 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/index.html.erb:109
+  [1m[36mOrderTransition Load (2.9ms)[0m  [1m[34mSELECT "order_transitions".* FROM "order_transitions" WHERE "order_transitions"."order_id" = 162 ORDER BY "order_transitions"."sort_key" DESC LIMIT 1 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/models/order.rb:43:in `current_state'
+  [1m[36mLineItem Sum (1.1ms)[0m  [1m[34mSELECT SUM("line_items"."quantity") FROM "line_items" WHERE "line_items"."order_id" = 166 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/index.html.erb:109
+  [1m[36mOrderTransition Load (0.5ms)[0m  [1m[34mSELECT "order_transitions".* FROM "order_transitions" WHERE "order_transitions"."order_id" = 166 ORDER BY "order_transitions"."sort_key" DESC LIMIT 1 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/models/order.rb:43:in `current_state'
+  [1m[36mLineItem Sum (0.6ms)[0m  [1m[34mSELECT SUM("line_items"."quantity") FROM "line_items" WHERE "line_items"."order_id" = 185 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/index.html.erb:109
+  [1m[36mOrderTransition Load (0.4ms)[0m  [1m[34mSELECT "order_transitions".* FROM "order_transitions" WHERE "order_transitions"."order_id" = 185 ORDER BY "order_transitions"."sort_key" DESC LIMIT 1 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/models/order.rb:43:in `current_state'
+  [1m[36mLineItem Sum (0.4ms)[0m  [1m[34mSELECT SUM("line_items"."quantity") FROM "line_items" WHERE "line_items"."order_id" = 158 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/index.html.erb:109
+  [1m[36mOrderTransition Load (0.5ms)[0m  [1m[34mSELECT "order_transitions".* FROM "order_transitions" WHERE "order_transitions"."order_id" = 158 ORDER BY "order_transitions"."sort_key" DESC LIMIT 1 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/models/order.rb:43:in `current_state'
+  [1m[36mLineItem Sum (0.3ms)[0m  [1m[34mSELECT SUM("line_items"."quantity") FROM "line_items" WHERE "line_items"."order_id" = 149 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/index.html.erb:109
+  [1m[36mOrderTransition Load (0.4ms)[0m  [1m[34mSELECT "order_transitions".* FROM "order_transitions" WHERE "order_transitions"."order_id" = 149 ORDER BY "order_transitions"."sort_key" DESC LIMIT 1 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/models/order.rb:43:in `current_state'
+  [1m[36mLineItem Sum (0.8ms)[0m  [1m[34mSELECT SUM("line_items"."quantity") FROM "line_items" WHERE "line_items"."order_id" = 194 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/index.html.erb:109
+  [1m[36mOrderTransition Load (0.4ms)[0m  [1m[34mSELECT "order_transitions".* FROM "order_transitions" WHERE "order_transitions"."order_id" = 194 ORDER BY "order_transitions"."sort_key" DESC LIMIT 1 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/models/order.rb:43:in `current_state'
+  [1m[36mLineItem Sum (0.5ms)[0m  [1m[34mSELECT SUM("line_items"."quantity") FROM "line_items" WHERE "line_items"."order_id" = 177 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/index.html.erb:109
+  [1m[36mOrderTransition Load (0.5ms)[0m  [1m[34mSELECT "order_transitions".* FROM "order_transitions" WHERE "order_transitions"."order_id" = 177 ORDER BY "order_transitions"."sort_key" DESC LIMIT 1 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/models/order.rb:43:in `current_state'
+  [1m[36mLineItem Sum (0.5ms)[0m  [1m[34mSELECT SUM("line_items"."quantity") FROM "line_items" WHERE "line_items"."order_id" = 212 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/index.html.erb:109
+  [1m[36mOrderTransition Load (0.3ms)[0m  [1m[34mSELECT "order_transitions".* FROM "order_transitions" WHERE "order_transitions"."order_id" = 212 ORDER BY "order_transitions"."sort_key" DESC LIMIT 1 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/models/order.rb:43:in `current_state'
+  [1m[36mLineItem Sum (0.7ms)[0m  [1m[34mSELECT SUM("line_items"."quantity") FROM "line_items" WHERE "line_items"."order_id" = 196 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/index.html.erb:109
+  [1m[36mOrderTransition Load (0.3ms)[0m  [1m[34mSELECT "order_transitions".* FROM "order_transitions" WHERE "order_transitions"."order_id" = 196 ORDER BY "order_transitions"."sort_key" DESC LIMIT 1 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/models/order.rb:43:in `current_state'
+  [1m[36mLineItem Sum (0.6ms)[0m  [1m[34mSELECT SUM("line_items"."quantity") FROM "line_items" WHERE "line_items"."order_id" = 189 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/index.html.erb:109
+  [1m[36mOrderTransition Load (0.4ms)[0m  [1m[34mSELECT "order_transitions".* FROM "order_transitions" WHERE "order_transitions"."order_id" = 189 ORDER BY "order_transitions"."sort_key" DESC LIMIT 1 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/models/order.rb:43:in `current_state'
+  [1m[36mLineItem Sum (0.4ms)[0m  [1m[34mSELECT SUM("line_items"."quantity") FROM "line_items" WHERE "line_items"."order_id" = 183 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/index.html.erb:109
+  [1m[36mOrderTransition Load (0.8ms)[0m  [1m[34mSELECT "order_transitions".* FROM "order_transitions" WHERE "order_transitions"."order_id" = 183 ORDER BY "order_transitions"."sort_key" DESC LIMIT 1 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/models/order.rb:43:in `current_state'
+  [1m[36mLineItem Sum (0.5ms)[0m  [1m[34mSELECT SUM("line_items"."quantity") FROM "line_items" WHERE "line_items"."order_id" = 218 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/index.html.erb:109
+  [1m[36mOrderTransition Load (0.3ms)[0m  [1m[34mSELECT "order_transitions".* FROM "order_transitions" WHERE "order_transitions"."order_id" = 218 ORDER BY "order_transitions"."sort_key" DESC LIMIT 1 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/models/order.rb:43:in `current_state'
+  [1m[36mLineItem Sum (0.5ms)[0m  [1m[34mSELECT SUM("line_items"."quantity") FROM "line_items" WHERE "line_items"."order_id" = 199 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/index.html.erb:109
+  [1m[36mOrderTransition Load (0.6ms)[0m  [1m[34mSELECT "order_transitions".* FROM "order_transitions" WHERE "order_transitions"."order_id" = 199 ORDER BY "order_transitions"."sort_key" DESC LIMIT 1 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/models/order.rb:43:in `current_state'
+  [1m[36mLineItem Sum (0.5ms)[0m  [1m[34mSELECT SUM("line_items"."quantity") FROM "line_items" WHERE "line_items"."order_id" = 197 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/index.html.erb:109
+  [1m[36mOrderTransition Load (0.8ms)[0m  [1m[34mSELECT "order_transitions".* FROM "order_transitions" WHERE "order_transitions"."order_id" = 197 ORDER BY "order_transitions"."sort_key" DESC LIMIT 1 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/models/order.rb:43:in `current_state'
+  [1m[36mCACHE Order Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "orders"[0m
+  ↳ app/views/orders/index.html.erb:139
+  Rendered orders/index.html.erb within layouts/application (Duration: 516.3ms | GC: 100.5ms)
+  Rendered layout layouts/application.html.erb (Duration: 518.7ms | GC: 100.5ms)
+Completed 200 OK in 556ms (Views: 475.5ms | ActiveRecord: 54.7ms (73 queries, 1 cached) | GC: 100.5ms)
+
+
+Started GET "/orders/new" for 127.0.0.1 at 2026-05-05 17:11:54 -0700
+Processing by OrdersController#new as HTML
+  [1m[36mSession Load (0.4ms)[0m  [1m[34mSELECT "sessions".* FROM "sessions" WHERE "sessions"."id" = 6 LIMIT 1 /*action='new',application='Shipright',controller='orders'*/[0m
+  ↳ app/controllers/concerns/authentication.rb:29:in `find_session_by_cookie'
+  Rendering layout layouts/application.html.erb
+  Rendering orders/new.html.erb within layouts/application
+  [1m[36mProduct Load (0.4ms)[0m  [1m[34mSELECT "products".* FROM "products" WHERE "products"."price" != 0.0 ORDER BY "products"."name" ASC /*action='new',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/_line_item_fields.html.erb:8
+  Rendered orders/_line_item_fields.html.erb (Duration: 4.7ms | GC: 0.0ms)
+  Rendered orders/_form.html.erb (Duration: 8.0ms | GC: 0.8ms)
+  Rendered orders/new.html.erb within layouts/application (Duration: 8.4ms | GC: 0.8ms)
+  Rendered layout layouts/application.html.erb (Duration: 11.5ms | GC: 0.8ms)
+Completed 200 OK in 18ms (Views: 11.8ms | ActiveRecord: 0.8ms (2 queries, 0 cached) | GC: 0.8ms)
+
+
+Started POST "/orders" for 127.0.0.1 at 2026-05-05 17:12:02 -0700
+Processing by OrdersController#create as TURBO_STREAM
+  Parameters: {"authenticity_token"=>"[FILTERED]", "order"=>{"line_items_attributes"=>{"0"=>{"_destroy"=>"0", "product_id"=>"311", "quantity"=>"1"}}}, "commit"=>"Create Order"}
+  [1m[36mSession Load (0.3ms)[0m  [1m[34mSELECT "sessions".* FROM "sessions" WHERE "sessions"."id" = 6 LIMIT 1 /*action='create',application='Shipright',controller='orders'*/[0m
+  ↳ app/controllers/concerns/authentication.rb:29:in `find_session_by_cookie'
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = 11 LIMIT 1 /*action='create',application='Shipright',controller='orders'*/[0m
+  ↳ app/models/current.rb:3:in `user'
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN /*action='create',application='Shipright',controller='orders'*/[0m
+  ↳ app/models/order.rb:70:in `block in calculate_totals'
+  [1m[36mProduct Load (1.7ms)[0m  [1m[34mSELECT "products".* FROM "products" WHERE "products"."id" = 311 LIMIT 1 /*action='create',application='Shipright',controller='orders'*/[0m
+  ↳ app/models/order.rb:70:in `block in calculate_totals'
+  [1m[36mOrder Exists? (0.6ms)[0m  [1m[34mSELECT 1 AS one FROM "orders" WHERE "orders"."order_number" = 'ORD-0M4NDHFQAB' LIMIT 1 /*action='create',application='Shipright',controller='orders'*/[0m
+  ↳ app/controllers/orders_controller.rb:52:in `create'
+  [1m[36mOrder Create (0.5ms)[0m  [1m[32mINSERT INTO "orders" ("order_number", "subtotal", "tax", "total", "user_id", "created_at", "updated_at", "tracking_number") VALUES ('ORD-0M4NDHFQAB', 426.86, 34.15, 461.01, 11, '2026-05-06 00:12:02.458563', '2026-05-06 00:12:02.458563', NULL) RETURNING "id" /*action='create',application='Shipright',controller='orders'*/[0m
+  ↳ app/controllers/orders_controller.rb:52:in `create'
+  [1m[36mPaperTrail::Version Create (1.0ms)[0m  [1m[32mINSERT INTO "versions" ("whodunnit", "created_at", "item_id", "item_type", "event", "object") VALUES (NULL, '2026-05-06 00:12:02.458563', 225, 'Order', 'create', NULL) RETURNING "id" /*action='create',application='Shipright',controller='orders'*/[0m
+  ↳ app/controllers/orders_controller.rb:52:in `create'
+  [1m[36mLineItem Create (0.6ms)[0m  [1m[32mINSERT INTO "line_items" ("order_id", "product_id", "quantity", "unit_price", "total", "created_at", "updated_at") VALUES (225, 311, 1, 426.86, 426.86, '2026-05-06 00:12:02.465257', '2026-05-06 00:12:02.465257') RETURNING "id" /*action='create',application='Shipright',controller='orders'*/[0m
+  ↳ app/controllers/orders_controller.rb:52:in `create'
+  [1m[36mPaperTrail::Version Create (0.4ms)[0m  [1m[32mINSERT INTO "versions" ("whodunnit", "created_at", "item_id", "item_type", "event", "object") VALUES (NULL, '2026-05-06 00:12:02.465257', 688, 'LineItem', 'create', NULL) RETURNING "id" /*action='create',application='Shipright',controller='orders'*/[0m
+  ↳ app/controllers/orders_controller.rb:52:in `create'
+  [1m[36mTRANSACTION (0.5ms)[0m  [1m[35mCOMMIT /*action='create',application='Shipright',controller='orders'*/[0m
+  ↳ app/controllers/orders_controller.rb:52:in `create'
+Redirected to http://127.0.0.1:3000/orders/225
+↳ app/controllers/orders_controller.rb:53:in `create'
+Completed 302 Found in 32ms (ActiveRecord: 5.9ms (8 queries, 0 cached) | GC: 1.0ms)
+
+
+Started GET "/orders/225" for 127.0.0.1 at 2026-05-05 17:12:02 -0700
+Processing by OrdersController#show as TURBO_STREAM
+  Parameters: {"id"=>"225"}
+  [1m[36mSession Load (0.4ms)[0m  [1m[34mSELECT "sessions".* FROM "sessions" WHERE "sessions"."id" = 6 LIMIT 1 /*action='show',application='Shipright',controller='orders'*/[0m
+  ↳ app/controllers/concerns/authentication.rb:29:in `find_session_by_cookie'
+  [1m[36mOrder Load (0.3ms)[0m  [1m[34mSELECT "orders".* FROM "orders" WHERE "orders"."id" = 225 LIMIT 1 /*action='show',application='Shipright',controller='orders'*/[0m
+  ↳ app/controllers/orders_controller.rb:117:in `set_order'
+  Rendering layout layouts/application.html.erb
+  Rendering orders/show.html.erb within layouts/application
+  [1m[36mOrderTransition Load (0.3ms)[0m  [1m[34mSELECT "order_transitions".* FROM "order_transitions" WHERE "order_transitions"."order_id" = 225 ORDER BY "order_transitions"."sort_key" DESC LIMIT 1 /*action='show',application='Shipright',controller='orders'*/[0m
+  ↳ app/models/order.rb:43:in `current_state'
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = 11 LIMIT 1 /*action='show',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/show.html.erb:44
+  [1m[36mLineItem Load (0.3ms)[0m  [1m[34mSELECT "line_items".* FROM "line_items" WHERE "line_items"."order_id" = 225 /*action='show',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/show.html.erb:67
+  [1m[36mProduct Load (0.5ms)[0m  [1m[34mSELECT "products".* FROM "products" WHERE "products"."id" = 311 /*action='show',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/show.html.erb:67
+  Rendered orders/show.html.erb within layouts/application (Duration: 12.3ms | GC: 1.3ms)
+  Rendered layout layouts/application.html.erb (Duration: 12.6ms | GC: 1.3ms)
+Completed 500 Internal Server Error in 21ms (ActiveRecord: 2.1ms (6 queries, 0 cached) | GC: 1.3ms)
+
+
+  
+ActionView::Template::Error (undefined method `to_state' for an instance of String)
+Caused by: NoMethodError (undefined method `to_state' for an instance of String)
+
+Information for: ActionView::Template::Error (undefined method `to_state' for an instance of String):
+    167:         <div class="px-4 py-5 sm:p-6 space-y-3">
+    168:           <% @order.state_machine.allowed_transitions.each do |transition| %>
+    169:             <%= button_to "Transition to #{transition.to_state.capitalize}", 
+    170:                 order_path(@order, to_state: transition.to_state),
+    171:                 method: :patch,
+    172:                 class: "w-full inline-flex justify-center items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500",
+    173:                 form: { data: { turbo_confirm: "Are you sure you want to transition this order to #{transition.to_state}?" } } %>
+  
+app/views/orders/show.html.erb:170
+app/views/orders/show.html.erb:169:in `each'
+app/views/orders/show.html.erb:169
+
+Information for cause: NoMethodError (undefined method `to_state' for an instance of String):
+  
+app/views/orders/show.html.erb:170
+app/views/orders/show.html.erb:169:in `each'
+app/views/orders/show.html.erb:169
+Started GET "/orders/new" for 127.0.0.1 at 2026-05-05 17:12:58 -0700
+Processing by OrdersController#new as HTML
+  [1m[36mSession Load (0.3ms)[0m  [1m[34mSELECT "sessions".* FROM "sessions" WHERE "sessions"."id" = 6 LIMIT 1 /*action='new',application='Shipright',controller='orders'*/[0m
+  ↳ app/controllers/concerns/authentication.rb:29:in `find_session_by_cookie'
+  Rendering layout layouts/application.html.erb
+  Rendering orders/new.html.erb within layouts/application
+  [1m[36mProduct Load (0.4ms)[0m  [1m[34mSELECT "products".* FROM "products" WHERE "products"."price" != 0.0 ORDER BY "products"."name" ASC /*action='new',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/_line_item_fields.html.erb:8
+  Rendered orders/_line_item_fields.html.erb (Duration: 11.7ms | GC: 0.0ms)
+  Rendered orders/_form.html.erb (Duration: 15.1ms | GC: 0.0ms)
+  Rendered orders/new.html.erb within layouts/application (Duration: 16.7ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 19.7ms | GC: 0.0ms)
+Completed 200 OK in 80ms (Views: 20.5ms | ActiveRecord: 9.9ms (2 queries, 0 cached) | GC: 0.0ms)
+
+
+Started POST "/orders" for 127.0.0.1 at 2026-05-05 17:13:03 -0700
+Processing by OrdersController#create as TURBO_STREAM
+  Parameters: {"authenticity_token"=>"[FILTERED]", "order"=>{"line_items_attributes"=>{"0"=>{"_destroy"=>"0", "product_id"=>"311", "quantity"=>"1"}}}, "commit"=>"Create Order"}
+  [1m[36mSession Load (0.5ms)[0m  [1m[34mSELECT "sessions".* FROM "sessions" WHERE "sessions"."id" = 6 LIMIT 1 /*action='create',application='Shipright',controller='orders'*/[0m
+  ↳ app/controllers/concerns/authentication.rb:29:in `find_session_by_cookie'
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = 11 LIMIT 1 /*action='create',application='Shipright',controller='orders'*/[0m
+  ↳ app/models/current.rb:3:in `user'
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN /*action='create',application='Shipright',controller='orders'*/[0m
+  ↳ app/models/order.rb:70:in `block in calculate_totals'
+  [1m[36mProduct Load (2.7ms)[0m  [1m[34mSELECT "products".* FROM "products" WHERE "products"."id" = 311 LIMIT 1 /*action='create',application='Shipright',controller='orders'*/[0m
+  ↳ app/models/order.rb:70:in `block in calculate_totals'
+  [1m[36mOrder Exists? (0.3ms)[0m  [1m[34mSELECT 1 AS one FROM "orders" WHERE "orders"."order_number" = 'ORD-H5OQKN2BT7' LIMIT 1 /*action='create',application='Shipright',controller='orders'*/[0m
+  ↳ app/controllers/orders_controller.rb:52:in `create'
+  [1m[36mOrder Create (0.6ms)[0m  [1m[32mINSERT INTO "orders" ("order_number", "subtotal", "tax", "total", "user_id", "created_at", "updated_at", "tracking_number") VALUES ('ORD-H5OQKN2BT7', 426.86, 34.15, 461.01, 11, '2026-05-06 00:13:03.189015', '2026-05-06 00:13:03.189015', NULL) RETURNING "id" /*action='create',application='Shipright',controller='orders'*/[0m
+  ↳ app/controllers/orders_controller.rb:52:in `create'
+  [1m[36mPaperTrail::Version Create (0.3ms)[0m  [1m[32mINSERT INTO "versions" ("whodunnit", "created_at", "item_id", "item_type", "event", "object") VALUES (NULL, '2026-05-06 00:13:03.189015', 226, 'Order', 'create', NULL) RETURNING "id" /*action='create',application='Shipright',controller='orders'*/[0m
+  ↳ app/controllers/orders_controller.rb:52:in `create'
+  [1m[36mLineItem Create (0.6ms)[0m  [1m[32mINSERT INTO "line_items" ("order_id", "product_id", "quantity", "unit_price", "total", "created_at", "updated_at") VALUES (226, 311, 1, 426.86, 426.86, '2026-05-06 00:13:03.195870', '2026-05-06 00:13:03.195870') RETURNING "id" /*action='create',application='Shipright',controller='orders'*/[0m
+  ↳ app/controllers/orders_controller.rb:52:in `create'
+  [1m[36mPaperTrail::Version Create (0.3ms)[0m  [1m[32mINSERT INTO "versions" ("whodunnit", "created_at", "item_id", "item_type", "event", "object") VALUES (NULL, '2026-05-06 00:13:03.195870', 689, 'LineItem', 'create', NULL) RETURNING "id" /*action='create',application='Shipright',controller='orders'*/[0m
+  ↳ app/controllers/orders_controller.rb:52:in `create'
+  [1m[36mTRANSACTION (0.5ms)[0m  [1m[35mCOMMIT /*action='create',application='Shipright',controller='orders'*/[0m
+  ↳ app/controllers/orders_controller.rb:52:in `create'
+Redirected to http://127.0.0.1:3000/orders/226
+↳ app/controllers/orders_controller.rb:53:in `create'
+Completed 302 Found in 42ms (ActiveRecord: 7.9ms (8 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/orders/226" for 127.0.0.1 at 2026-05-05 17:13:03 -0700
+Processing by OrdersController#show as TURBO_STREAM
+  Parameters: {"id"=>"226"}
+  [1m[36mSession Load (0.4ms)[0m  [1m[34mSELECT "sessions".* FROM "sessions" WHERE "sessions"."id" = 6 LIMIT 1 /*action='show',application='Shipright',controller='orders'*/[0m
+  ↳ app/controllers/concerns/authentication.rb:29:in `find_session_by_cookie'
+  [1m[36mOrder Load (0.5ms)[0m  [1m[34mSELECT "orders".* FROM "orders" WHERE "orders"."id" = 226 LIMIT 1 /*action='show',application='Shipright',controller='orders'*/[0m
+  ↳ app/controllers/orders_controller.rb:117:in `set_order'
+  Rendering layout layouts/application.html.erb
+  Rendering orders/show.html.erb within layouts/application
+  [1m[36mOrderTransition Load (0.5ms)[0m  [1m[34mSELECT "order_transitions".* FROM "order_transitions" WHERE "order_transitions"."order_id" = 226 ORDER BY "order_transitions"."sort_key" DESC LIMIT 1 /*action='show',application='Shipright',controller='orders'*/[0m
+  ↳ app/models/order.rb:43:in `current_state'
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = 11 LIMIT 1 /*action='show',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/show.html.erb:44
+  [1m[36mLineItem Load (0.5ms)[0m  [1m[34mSELECT "line_items".* FROM "line_items" WHERE "line_items"."order_id" = 226 /*action='show',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/show.html.erb:67
+  [1m[36mProduct Load (0.3ms)[0m  [1m[34mSELECT "products".* FROM "products" WHERE "products"."id" = 311 /*action='show',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/show.html.erb:67
+  [1m[36mOrderTransition Load (0.3ms)[0m  [1m[34mSELECT "order_transitions".* FROM "order_transitions" WHERE "order_transitions"."order_id" = 226 ORDER BY "order_transitions"."created_at" DESC /*action='show',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/show.html.erb:191:in `each_with_index'
+  [1m[36mPaperTrail::Version Exists? (0.5ms)[0m  [1m[34mSELECT 1 AS one FROM "versions" WHERE "versions"."item_id" = 226 AND "versions"."item_type" = 'Order' LIMIT 1 /*action='show',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/show.html.erb:223
+  [1m[36mPaperTrail::Version Load (0.5ms)[0m  [1m[34mSELECT "versions".* FROM "versions" WHERE "versions"."item_id" = 226 AND "versions"."item_type" = 'Order' ORDER BY "versions"."created_at" ASC, "versions"."id" ASC, "versions"."created_at" DESC /*action='show',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/show.html.erb:230
+  Rendered orders/show.html.erb within layouts/application (Duration: 30.2ms | GC: 7.7ms)
+  Rendered layout layouts/application.html.erb (Duration: 31.2ms | GC: 7.7ms)
+Completed 200 OK in 50ms (Views: 29.1ms | ActiveRecord: 6.5ms (9 queries, 0 cached) | GC: 7.7ms)
+
+
+Started PATCH "/orders/226?to_state=approved" for 127.0.0.1 at 2026-05-05 17:13:13 -0700
+Processing by OrdersController#update as TURBO_STREAM
+  Parameters: {"authenticity_token"=>"[FILTERED]", "to_state"=>"approved", "id"=>"226"}
+  [1m[36mSession Load (0.3ms)[0m  [1m[34mSELECT "sessions".* FROM "sessions" WHERE "sessions"."id" = 6 LIMIT 1 /*action='update',application='Shipright',controller='orders'*/[0m
+  ↳ app/controllers/concerns/authentication.rb:29:in `find_session_by_cookie'
+  [1m[36mOrder Load (0.3ms)[0m  [1m[34mSELECT "orders".* FROM "orders" WHERE "orders"."id" = 226 LIMIT 1 /*action='update',application='Shipright',controller='orders'*/[0m
+  ↳ app/controllers/orders_controller.rb:117:in `set_order'
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = 11 LIMIT 1 /*action='update',application='Shipright',controller='orders'*/[0m
+  ↳ app/models/current.rb:3:in `user'
+  [1m[36mOrderTransition Load (0.6ms)[0m  [1m[34mSELECT "order_transitions".* FROM "order_transitions" WHERE "order_transitions"."order_id" = 226 ORDER BY "order_transitions"."sort_key" DESC LIMIT 1 /*action='update',application='Shipright',controller='orders'*/[0m
+  ↳ app/models/order.rb:47:in `can_transition_to?'
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN /*action='update',application='Shipright',controller='orders'*/[0m
+  ↳ app/models/order.rb:51:in `transition_to!'
+  [1m[35m (1.5ms)[0m  [1m[33mUPDATE "order_transitions" SET "most_recent" = FALSE, "updated_at" = '2026-05-06 00:13:13.885727' WHERE "order_transitions"."order_id" = 226 AND "order_transitions"."most_recent" = TRUE /*action='update',application='Shipright',controller='orders'*/[0m
+  ↳ app/models/order.rb:51:in `transition_to!'
+  [1m[36mOrderTransition Create (0.9ms)[0m  [1m[32mINSERT INTO "order_transitions" ("order_id", "to_state", "metadata", "most_recent", "sort_key", "created_at", "updated_at") VALUES (226, 'approved', '{}', TRUE, 10, '2026-05-06 00:13:13.888546', '2026-05-06 00:13:13.888546') RETURNING "id" /*action='update',application='Shipright',controller='orders'*/[0m
+  ↳ app/models/order.rb:51:in `transition_to!'
+  [1m[36mTRANSACTION (1.0ms)[0m  [1m[35mCOMMIT /*action='update',application='Shipright',controller='orders'*/[0m
+  ↳ app/models/order.rb:51:in `transition_to!'
+Redirected to http://127.0.0.1:3000/orders/226
+↳ app/controllers/orders_controller.rb:72:in `update'
+Completed 302 Found in 36ms (ActiveRecord: 4.9ms (6 queries, 0 cached) | GC: 2.8ms)
+
+
+Started GET "/orders/226" for 127.0.0.1 at 2026-05-05 17:13:13 -0700
+Processing by OrdersController#show as TURBO_STREAM
+  Parameters: {"id"=>"226"}
+  [1m[36mSession Load (0.3ms)[0m  [1m[34mSELECT "sessions".* FROM "sessions" WHERE "sessions"."id" = 6 LIMIT 1 /*action='show',application='Shipright',controller='orders'*/[0m
+  ↳ app/controllers/concerns/authentication.rb:29:in `find_session_by_cookie'
+  [1m[36mOrder Load (0.8ms)[0m  [1m[34mSELECT "orders".* FROM "orders" WHERE "orders"."id" = 226 LIMIT 1 /*action='show',application='Shipright',controller='orders'*/[0m
+  ↳ app/controllers/orders_controller.rb:117:in `set_order'
+  Rendering layout layouts/application.html.erb
+  Rendering orders/show.html.erb within layouts/application
+  [1m[36mOrderTransition Load (0.3ms)[0m  [1m[34mSELECT "order_transitions".* FROM "order_transitions" WHERE "order_transitions"."order_id" = 226 ORDER BY "order_transitions"."sort_key" DESC LIMIT 1 /*action='show',application='Shipright',controller='orders'*/[0m
+  ↳ app/models/order.rb:43:in `current_state'
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = 11 LIMIT 1 /*action='show',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/show.html.erb:44
+  [1m[36mLineItem Load (0.3ms)[0m  [1m[34mSELECT "line_items".* FROM "line_items" WHERE "line_items"."order_id" = 226 /*action='show',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/show.html.erb:67
+  [1m[36mProduct Load (0.3ms)[0m  [1m[34mSELECT "products".* FROM "products" WHERE "products"."id" = 311 /*action='show',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/show.html.erb:67
+  [1m[36mLineItem Exists? (0.5ms)[0m  [1m[34mSELECT 1 AS one FROM "line_items" WHERE "line_items"."order_id" = 226 LIMIT 1 /*action='show',application='Shipright',controller='orders'*/[0m
+  ↳ app/state_machines/order_state_machine.rb:21:in `block in <class:OrderStateMachine>'
+  [1m[36mCACHE LineItem Exists? (0.0ms)[0m  [1m[34mSELECT 1 AS one FROM "line_items" WHERE "line_items"."order_id" = 226 LIMIT 1[0m
+  ↳ app/state_machines/order_state_machine.rb:21:in `block in <class:OrderStateMachine>'
+  [1m[36mOrderTransition Load (0.5ms)[0m  [1m[34mSELECT "order_transitions".* FROM "order_transitions" WHERE "order_transitions"."order_id" = 226 ORDER BY "order_transitions"."created_at" DESC /*action='show',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/show.html.erb:191:in `each_with_index'
+  [1m[36mPaperTrail::Version Exists? (1.7ms)[0m  [1m[34mSELECT 1 AS one FROM "versions" WHERE "versions"."item_id" = 226 AND "versions"."item_type" = 'Order' LIMIT 1 /*action='show',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/show.html.erb:223
+  [1m[36mPaperTrail::Version Load (0.4ms)[0m  [1m[34mSELECT "versions".* FROM "versions" WHERE "versions"."item_id" = 226 AND "versions"."item_type" = 'Order' ORDER BY "versions"."created_at" ASC, "versions"."id" ASC, "versions"."created_at" DESC /*action='show',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/show.html.erb:230
+  Rendered orders/show.html.erb within layouts/application (Duration: 28.1ms | GC: 1.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 33.1ms | GC: 1.0ms)
+Completed 200 OK in 44ms (Views: 29.6ms | ActiveRecord: 5.3ms (11 queries, 1 cached) | GC: 2.0ms)
+
+
+Started PATCH "/orders/226?to_state=canceled" for 127.0.0.1 at 2026-05-05 17:13:18 -0700
+Processing by OrdersController#update as TURBO_STREAM
+  Parameters: {"authenticity_token"=>"[FILTERED]", "to_state"=>"canceled", "id"=>"226"}
+  [1m[36mSession Load (0.4ms)[0m  [1m[34mSELECT "sessions".* FROM "sessions" WHERE "sessions"."id" = 6 LIMIT 1 /*action='update',application='Shipright',controller='orders'*/[0m
+  ↳ app/controllers/concerns/authentication.rb:29:in `find_session_by_cookie'
+  [1m[36mOrder Load (0.5ms)[0m  [1m[34mSELECT "orders".* FROM "orders" WHERE "orders"."id" = 226 LIMIT 1 /*action='update',application='Shipright',controller='orders'*/[0m
+  ↳ app/controllers/orders_controller.rb:117:in `set_order'
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = 11 LIMIT 1 /*action='update',application='Shipright',controller='orders'*/[0m
+  ↳ app/models/current.rb:3:in `user'
+  [1m[36mOrderTransition Load (0.4ms)[0m  [1m[34mSELECT "order_transitions".* FROM "order_transitions" WHERE "order_transitions"."order_id" = 226 ORDER BY "order_transitions"."sort_key" DESC LIMIT 1 /*action='update',application='Shipright',controller='orders'*/[0m
+  ↳ app/models/order.rb:47:in `can_transition_to?'
+  [1m[36mTRANSACTION (0.4ms)[0m  [1m[35mBEGIN /*action='update',application='Shipright',controller='orders'*/[0m
+  ↳ app/models/order.rb:51:in `transition_to!'
+  [1m[35m (2.8ms)[0m  [1m[33mUPDATE "order_transitions" SET "most_recent" = FALSE, "updated_at" = '2026-05-06 00:13:18.815758' WHERE "order_transitions"."order_id" = 226 AND "order_transitions"."most_recent" = TRUE /*action='update',application='Shipright',controller='orders'*/[0m
+  ↳ app/models/order.rb:51:in `transition_to!'
+  [1m[36mOrderTransition Create (0.6ms)[0m  [1m[32mINSERT INTO "order_transitions" ("order_id", "to_state", "metadata", "most_recent", "sort_key", "created_at", "updated_at") VALUES (226, 'canceled', '{}', TRUE, 20, '2026-05-06 00:13:18.819837', '2026-05-06 00:13:18.819837') RETURNING "id" /*action='update',application='Shipright',controller='orders'*/[0m
+  ↳ app/models/order.rb:51:in `transition_to!'
+  [1m[36mTRANSACTION (0.4ms)[0m  [1m[35mCOMMIT /*action='update',application='Shipright',controller='orders'*/[0m
+  ↳ app/models/order.rb:51:in `transition_to!'
+Redirected to http://127.0.0.1:3000/orders/226
+↳ app/controllers/orders_controller.rb:72:in `update'
+Completed 302 Found in 31ms (ActiveRecord: 5.7ms (6 queries, 0 cached) | GC: 0.6ms)
+
+
+Started GET "/orders/226" for 127.0.0.1 at 2026-05-05 17:13:18 -0700
+Processing by OrdersController#show as TURBO_STREAM
+  Parameters: {"id"=>"226"}
+  [1m[36mSession Load (0.5ms)[0m  [1m[34mSELECT "sessions".* FROM "sessions" WHERE "sessions"."id" = 6 LIMIT 1 /*action='show',application='Shipright',controller='orders'*/[0m
+  ↳ app/controllers/concerns/authentication.rb:29:in `find_session_by_cookie'
+  [1m[36mOrder Load (0.3ms)[0m  [1m[34mSELECT "orders".* FROM "orders" WHERE "orders"."id" = 226 LIMIT 1 /*action='show',application='Shipright',controller='orders'*/[0m
+  ↳ app/controllers/orders_controller.rb:117:in `set_order'
+  Rendering layout layouts/application.html.erb
+  Rendering orders/show.html.erb within layouts/application
+  [1m[36mOrderTransition Load (0.5ms)[0m  [1m[34mSELECT "order_transitions".* FROM "order_transitions" WHERE "order_transitions"."order_id" = 226 ORDER BY "order_transitions"."sort_key" DESC LIMIT 1 /*action='show',application='Shipright',controller='orders'*/[0m
+  ↳ app/models/order.rb:43:in `current_state'
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = 11 LIMIT 1 /*action='show',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/show.html.erb:44
+  [1m[36mLineItem Load (0.9ms)[0m  [1m[34mSELECT "line_items".* FROM "line_items" WHERE "line_items"."order_id" = 226 /*action='show',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/show.html.erb:67
+  [1m[36mProduct Load (0.3ms)[0m  [1m[34mSELECT "products".* FROM "products" WHERE "products"."id" = 311 /*action='show',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/show.html.erb:67
+  [1m[36mOrderTransition Load (0.3ms)[0m  [1m[34mSELECT "order_transitions".* FROM "order_transitions" WHERE "order_transitions"."order_id" = 226 ORDER BY "order_transitions"."created_at" DESC /*action='show',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/show.html.erb:191:in `each_with_index'
+  [1m[36mPaperTrail::Version Exists? (0.3ms)[0m  [1m[34mSELECT 1 AS one FROM "versions" WHERE "versions"."item_id" = 226 AND "versions"."item_type" = 'Order' LIMIT 1 /*action='show',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/show.html.erb:223
+  [1m[36mPaperTrail::Version Load (0.4ms)[0m  [1m[34mSELECT "versions".* FROM "versions" WHERE "versions"."item_id" = 226 AND "versions"."item_type" = 'Order' ORDER BY "versions"."created_at" ASC, "versions"."id" ASC, "versions"."created_at" DESC /*action='show',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/show.html.erb:230
+  Rendered orders/show.html.erb within layouts/application (Duration: 18.7ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 22.1ms | GC: 0.9ms)
+Completed 200 OK in 32ms (Views: 19.9ms | ActiveRecord: 3.6ms (9 queries, 0 cached) | GC: 0.9ms)
+
+
+Started GET "/orders" for 127.0.0.1 at 2026-05-05 17:13:21 -0700
+Processing by OrdersController#index as HTML
+  [1m[36mSession Load (1.3ms)[0m  [1m[34mSELECT "sessions".* FROM "sessions" WHERE "sessions"."id" = 6 LIMIT 1 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/controllers/concerns/authentication.rb:29:in `find_session_by_cookie'
+  [1m[36mOrder Count (0.5ms)[0m  [1m[34mSELECT COUNT(*) FROM "orders" LEFT OUTER JOIN order_transitions AS most_recent_order_transition ON orders.id = most_recent_order_transition.order_id AND most_recent_order_transition.most_recent = TRUE WHERE (most_recent_order_transition.to_state IN ('pending') OR most_recent_order_transition.to_state IS NULL) /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/controllers/orders_controller.rb:29:in `block in index'
+  [1m[36mOrder Count (1.1ms)[0m  [1m[34mSELECT COUNT(*) FROM "orders" LEFT OUTER JOIN order_transitions AS most_recent_order_transition ON orders.id = most_recent_order_transition.order_id AND most_recent_order_transition.most_recent = TRUE WHERE (most_recent_order_transition.to_state IN ('approved') AND most_recent_order_transition.to_state IS NOT NULL) /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/controllers/orders_controller.rb:29:in `block in index'
+  [1m[36mOrder Count (1.9ms)[0m  [1m[34mSELECT COUNT(*) FROM "orders" LEFT OUTER JOIN order_transitions AS most_recent_order_transition ON orders.id = most_recent_order_transition.order_id AND most_recent_order_transition.most_recent = TRUE WHERE (most_recent_order_transition.to_state IN ('shipped') AND most_recent_order_transition.to_state IS NOT NULL) /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/controllers/orders_controller.rb:29:in `block in index'
+  [1m[36mOrder Count (0.5ms)[0m  [1m[34mSELECT COUNT(*) FROM "orders" LEFT OUTER JOIN order_transitions AS most_recent_order_transition ON orders.id = most_recent_order_transition.order_id AND most_recent_order_transition.most_recent = TRUE WHERE (most_recent_order_transition.to_state IN ('delivered') AND most_recent_order_transition.to_state IS NOT NULL) /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/controllers/orders_controller.rb:29:in `block in index'
+  [1m[36mOrder Count (0.5ms)[0m  [1m[34mSELECT COUNT(*) FROM "orders" LEFT OUTER JOIN order_transitions AS most_recent_order_transition ON orders.id = most_recent_order_transition.order_id AND most_recent_order_transition.most_recent = TRUE WHERE (most_recent_order_transition.to_state IN ('canceled') AND most_recent_order_transition.to_state IS NOT NULL) /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/controllers/orders_controller.rb:29:in `block in index'
+  Rendering layout layouts/application.html.erb
+  Rendering orders/index.html.erb within layouts/application
+  [1m[36mOrder Count (0.3ms)[0m  [1m[34mSELECT COUNT(*) FROM "orders" /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/index.html.erb:42
+  [1m[36mOrder Exists? (0.4ms)[0m  [1m[34mSELECT 1 AS one FROM "orders" LIMIT 1 OFFSET 0 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/index.html.erb:79
+  [1m[36mOrder Load (1.5ms)[0m  [1m[34mSELECT "orders".* FROM "orders" ORDER BY "orders"."created_at" DESC LIMIT 30 OFFSET 0 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/index.html.erb:97
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = 11 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/index.html.erb:97
+  [1m[36mLineItem Load (1.2ms)[0m  [1m[34mSELECT "line_items".* FROM "line_items" WHERE "line_items"."order_id" IN (226, 225, 224, 215, 198, 192, 178, 170, 163, 217, 186, 220, 211, 201, 169, 153, 209, 188, 162, 166, 185, 158, 149, 194, 177, 212, 196, 189, 183, 218) /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/index.html.erb:97
+  [1m[36mProduct Load (1.2ms)[0m  [1m[34mSELECT "products".* FROM "products" WHERE "products"."id" IN (311, 324, 318, 323, 313, 322, 315, 307, 305, 329, 328, 325, 306, 327, 321, 302, 316, 303, 312, 330, 326, 320, 317, 314, 308, 309, 304, 319, 301) /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/index.html.erb:97
+  [1m[36mLineItem Sum (0.9ms)[0m  [1m[34mSELECT SUM("line_items"."quantity") FROM "line_items" WHERE "line_items"."order_id" = 226 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/index.html.erb:109
+  [1m[36mOrderTransition Load (0.6ms)[0m  [1m[34mSELECT "order_transitions".* FROM "order_transitions" WHERE "order_transitions"."order_id" = 226 ORDER BY "order_transitions"."sort_key" DESC LIMIT 1 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/models/order.rb:43:in `current_state'
+  [1m[36mLineItem Sum (0.5ms)[0m  [1m[34mSELECT SUM("line_items"."quantity") FROM "line_items" WHERE "line_items"."order_id" = 225 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/index.html.erb:109
+  [1m[36mOrderTransition Load (0.4ms)[0m  [1m[34mSELECT "order_transitions".* FROM "order_transitions" WHERE "order_transitions"."order_id" = 225 ORDER BY "order_transitions"."sort_key" DESC LIMIT 1 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/models/order.rb:43:in `current_state'
+  [1m[36mLineItem Sum (0.4ms)[0m  [1m[34mSELECT SUM("line_items"."quantity") FROM "line_items" WHERE "line_items"."order_id" = 224 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/index.html.erb:109
+  [1m[36mOrderTransition Load (0.7ms)[0m  [1m[34mSELECT "order_transitions".* FROM "order_transitions" WHERE "order_transitions"."order_id" = 224 ORDER BY "order_transitions"."sort_key" DESC LIMIT 1 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/models/order.rb:43:in `current_state'
+  [1m[36mLineItem Sum (0.6ms)[0m  [1m[34mSELECT SUM("line_items"."quantity") FROM "line_items" WHERE "line_items"."order_id" = 215 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/index.html.erb:109
+  [1m[36mOrderTransition Load (0.6ms)[0m  [1m[34mSELECT "order_transitions".* FROM "order_transitions" WHERE "order_transitions"."order_id" = 215 ORDER BY "order_transitions"."sort_key" DESC LIMIT 1 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/models/order.rb:43:in `current_state'
+  [1m[36mLineItem Sum (0.9ms)[0m  [1m[34mSELECT SUM("line_items"."quantity") FROM "line_items" WHERE "line_items"."order_id" = 198 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/index.html.erb:109
+  [1m[36mOrderTransition Load (0.4ms)[0m  [1m[34mSELECT "order_transitions".* FROM "order_transitions" WHERE "order_transitions"."order_id" = 198 ORDER BY "order_transitions"."sort_key" DESC LIMIT 1 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/models/order.rb:43:in `current_state'
+  [1m[36mLineItem Sum (0.3ms)[0m  [1m[34mSELECT SUM("line_items"."quantity") FROM "line_items" WHERE "line_items"."order_id" = 192 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/index.html.erb:109
+  [1m[36mOrderTransition Load (2.7ms)[0m  [1m[34mSELECT "order_transitions".* FROM "order_transitions" WHERE "order_transitions"."order_id" = 192 ORDER BY "order_transitions"."sort_key" DESC LIMIT 1 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/models/order.rb:43:in `current_state'
+  [1m[36mLineItem Sum (0.4ms)[0m  [1m[34mSELECT SUM("line_items"."quantity") FROM "line_items" WHERE "line_items"."order_id" = 178 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/index.html.erb:109
+  [1m[36mOrderTransition Load (0.7ms)[0m  [1m[34mSELECT "order_transitions".* FROM "order_transitions" WHERE "order_transitions"."order_id" = 178 ORDER BY "order_transitions"."sort_key" DESC LIMIT 1 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/models/order.rb:43:in `current_state'
+  [1m[36mLineItem Sum (0.3ms)[0m  [1m[34mSELECT SUM("line_items"."quantity") FROM "line_items" WHERE "line_items"."order_id" = 170 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/index.html.erb:109
+  [1m[36mOrderTransition Load (0.6ms)[0m  [1m[34mSELECT "order_transitions".* FROM "order_transitions" WHERE "order_transitions"."order_id" = 170 ORDER BY "order_transitions"."sort_key" DESC LIMIT 1 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/models/order.rb:43:in `current_state'
+  [1m[36mLineItem Sum (0.5ms)[0m  [1m[34mSELECT SUM("line_items"."quantity") FROM "line_items" WHERE "line_items"."order_id" = 163 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/index.html.erb:109
+  [1m[36mOrderTransition Load (0.7ms)[0m  [1m[34mSELECT "order_transitions".* FROM "order_transitions" WHERE "order_transitions"."order_id" = 163 ORDER BY "order_transitions"."sort_key" DESC LIMIT 1 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/models/order.rb:43:in `current_state'
+  [1m[36mLineItem Sum (0.5ms)[0m  [1m[34mSELECT SUM("line_items"."quantity") FROM "line_items" WHERE "line_items"."order_id" = 217 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/index.html.erb:109
+  [1m[36mOrderTransition Load (0.5ms)[0m  [1m[34mSELECT "order_transitions".* FROM "order_transitions" WHERE "order_transitions"."order_id" = 217 ORDER BY "order_transitions"."sort_key" DESC LIMIT 1 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/models/order.rb:43:in `current_state'
+  [1m[36mLineItem Sum (0.5ms)[0m  [1m[34mSELECT SUM("line_items"."quantity") FROM "line_items" WHERE "line_items"."order_id" = 186 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/index.html.erb:109
+  [1m[36mOrderTransition Load (0.6ms)[0m  [1m[34mSELECT "order_transitions".* FROM "order_transitions" WHERE "order_transitions"."order_id" = 186 ORDER BY "order_transitions"."sort_key" DESC LIMIT 1 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/models/order.rb:43:in `current_state'
+  [1m[36mLineItem Sum (0.5ms)[0m  [1m[34mSELECT SUM("line_items"."quantity") FROM "line_items" WHERE "line_items"."order_id" = 220 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/index.html.erb:109
+  [1m[36mOrderTransition Load (0.5ms)[0m  [1m[34mSELECT "order_transitions".* FROM "order_transitions" WHERE "order_transitions"."order_id" = 220 ORDER BY "order_transitions"."sort_key" DESC LIMIT 1 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/models/order.rb:43:in `current_state'
+  [1m[36mLineItem Sum (0.4ms)[0m  [1m[34mSELECT SUM("line_items"."quantity") FROM "line_items" WHERE "line_items"."order_id" = 211 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/index.html.erb:109
+  [1m[36mOrderTransition Load (1.0ms)[0m  [1m[34mSELECT "order_transitions".* FROM "order_transitions" WHERE "order_transitions"."order_id" = 211 ORDER BY "order_transitions"."sort_key" DESC LIMIT 1 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/models/order.rb:43:in `current_state'
+  [1m[36mLineItem Sum (0.4ms)[0m  [1m[34mSELECT SUM("line_items"."quantity") FROM "line_items" WHERE "line_items"."order_id" = 201 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/index.html.erb:109
+  [1m[36mOrderTransition Load (0.5ms)[0m  [1m[34mSELECT "order_transitions".* FROM "order_transitions" WHERE "order_transitions"."order_id" = 201 ORDER BY "order_transitions"."sort_key" DESC LIMIT 1 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/models/order.rb:43:in `current_state'
+  [1m[36mLineItem Sum (0.4ms)[0m  [1m[34mSELECT SUM("line_items"."quantity") FROM "line_items" WHERE "line_items"."order_id" = 169 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/index.html.erb:109
+  [1m[36mOrderTransition Load (0.5ms)[0m  [1m[34mSELECT "order_transitions".* FROM "order_transitions" WHERE "order_transitions"."order_id" = 169 ORDER BY "order_transitions"."sort_key" DESC LIMIT 1 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/models/order.rb:43:in `current_state'
+  [1m[36mLineItem Sum (0.4ms)[0m  [1m[34mSELECT SUM("line_items"."quantity") FROM "line_items" WHERE "line_items"."order_id" = 153 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/index.html.erb:109
+  [1m[36mOrderTransition Load (0.6ms)[0m  [1m[34mSELECT "order_transitions".* FROM "order_transitions" WHERE "order_transitions"."order_id" = 153 ORDER BY "order_transitions"."sort_key" DESC LIMIT 1 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/models/order.rb:43:in `current_state'
+  [1m[36mLineItem Sum (0.6ms)[0m  [1m[34mSELECT SUM("line_items"."quantity") FROM "line_items" WHERE "line_items"."order_id" = 209 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/index.html.erb:109
+  [1m[36mOrderTransition Load (0.8ms)[0m  [1m[34mSELECT "order_transitions".* FROM "order_transitions" WHERE "order_transitions"."order_id" = 209 ORDER BY "order_transitions"."sort_key" DESC LIMIT 1 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/models/order.rb:43:in `current_state'
+  [1m[36mLineItem Sum (0.6ms)[0m  [1m[34mSELECT SUM("line_items"."quantity") FROM "line_items" WHERE "line_items"."order_id" = 188 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/index.html.erb:109
+  [1m[36mOrderTransition Load (0.4ms)[0m  [1m[34mSELECT "order_transitions".* FROM "order_transitions" WHERE "order_transitions"."order_id" = 188 ORDER BY "order_transitions"."sort_key" DESC LIMIT 1 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/models/order.rb:43:in `current_state'
+  [1m[36mLineItem Sum (0.3ms)[0m  [1m[34mSELECT SUM("line_items"."quantity") FROM "line_items" WHERE "line_items"."order_id" = 162 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/index.html.erb:109
+  [1m[36mOrderTransition Load (0.5ms)[0m  [1m[34mSELECT "order_transitions".* FROM "order_transitions" WHERE "order_transitions"."order_id" = 162 ORDER BY "order_transitions"."sort_key" DESC LIMIT 1 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/models/order.rb:43:in `current_state'
+  [1m[36mLineItem Sum (0.4ms)[0m  [1m[34mSELECT SUM("line_items"."quantity") FROM "line_items" WHERE "line_items"."order_id" = 166 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/index.html.erb:109
+  [1m[36mOrderTransition Load (0.4ms)[0m  [1m[34mSELECT "order_transitions".* FROM "order_transitions" WHERE "order_transitions"."order_id" = 166 ORDER BY "order_transitions"."sort_key" DESC LIMIT 1 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/models/order.rb:43:in `current_state'
+  [1m[36mLineItem Sum (0.4ms)[0m  [1m[34mSELECT SUM("line_items"."quantity") FROM "line_items" WHERE "line_items"."order_id" = 185 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/index.html.erb:109
+  [1m[36mOrderTransition Load (0.3ms)[0m  [1m[34mSELECT "order_transitions".* FROM "order_transitions" WHERE "order_transitions"."order_id" = 185 ORDER BY "order_transitions"."sort_key" DESC LIMIT 1 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/models/order.rb:43:in `current_state'
+  [1m[36mLineItem Sum (0.4ms)[0m  [1m[34mSELECT SUM("line_items"."quantity") FROM "line_items" WHERE "line_items"."order_id" = 158 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/index.html.erb:109
+  [1m[36mOrderTransition Load (0.5ms)[0m  [1m[34mSELECT "order_transitions".* FROM "order_transitions" WHERE "order_transitions"."order_id" = 158 ORDER BY "order_transitions"."sort_key" DESC LIMIT 1 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/models/order.rb:43:in `current_state'
+  [1m[36mLineItem Sum (0.4ms)[0m  [1m[34mSELECT SUM("line_items"."quantity") FROM "line_items" WHERE "line_items"."order_id" = 149 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/index.html.erb:109
+  [1m[36mOrderTransition Load (0.4ms)[0m  [1m[34mSELECT "order_transitions".* FROM "order_transitions" WHERE "order_transitions"."order_id" = 149 ORDER BY "order_transitions"."sort_key" DESC LIMIT 1 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/models/order.rb:43:in `current_state'
+  [1m[36mLineItem Sum (0.4ms)[0m  [1m[34mSELECT SUM("line_items"."quantity") FROM "line_items" WHERE "line_items"."order_id" = 194 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/index.html.erb:109
+  [1m[36mOrderTransition Load (0.3ms)[0m  [1m[34mSELECT "order_transitions".* FROM "order_transitions" WHERE "order_transitions"."order_id" = 194 ORDER BY "order_transitions"."sort_key" DESC LIMIT 1 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/models/order.rb:43:in `current_state'
+  [1m[36mLineItem Sum (0.5ms)[0m  [1m[34mSELECT SUM("line_items"."quantity") FROM "line_items" WHERE "line_items"."order_id" = 177 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/index.html.erb:109
+  [1m[36mOrderTransition Load (0.5ms)[0m  [1m[34mSELECT "order_transitions".* FROM "order_transitions" WHERE "order_transitions"."order_id" = 177 ORDER BY "order_transitions"."sort_key" DESC LIMIT 1 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/models/order.rb:43:in `current_state'
+  [1m[36mLineItem Sum (0.6ms)[0m  [1m[34mSELECT SUM("line_items"."quantity") FROM "line_items" WHERE "line_items"."order_id" = 212 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/index.html.erb:109
+  [1m[36mOrderTransition Load (0.5ms)[0m  [1m[34mSELECT "order_transitions".* FROM "order_transitions" WHERE "order_transitions"."order_id" = 212 ORDER BY "order_transitions"."sort_key" DESC LIMIT 1 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/models/order.rb:43:in `current_state'
+  [1m[36mLineItem Sum (0.8ms)[0m  [1m[34mSELECT SUM("line_items"."quantity") FROM "line_items" WHERE "line_items"."order_id" = 196 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/index.html.erb:109
+  [1m[36mOrderTransition Load (0.5ms)[0m  [1m[34mSELECT "order_transitions".* FROM "order_transitions" WHERE "order_transitions"."order_id" = 196 ORDER BY "order_transitions"."sort_key" DESC LIMIT 1 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/models/order.rb:43:in `current_state'
+  [1m[36mLineItem Sum (1.0ms)[0m  [1m[34mSELECT SUM("line_items"."quantity") FROM "line_items" WHERE "line_items"."order_id" = 189 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/index.html.erb:109
+  [1m[36mOrderTransition Load (1.4ms)[0m  [1m[34mSELECT "order_transitions".* FROM "order_transitions" WHERE "order_transitions"."order_id" = 189 ORDER BY "order_transitions"."sort_key" DESC LIMIT 1 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/models/order.rb:43:in `current_state'
+  [1m[36mLineItem Sum (1.7ms)[0m  [1m[34mSELECT SUM("line_items"."quantity") FROM "line_items" WHERE "line_items"."order_id" = 183 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/index.html.erb:109
+  [1m[36mOrderTransition Load (0.4ms)[0m  [1m[34mSELECT "order_transitions".* FROM "order_transitions" WHERE "order_transitions"."order_id" = 183 ORDER BY "order_transitions"."sort_key" DESC LIMIT 1 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/models/order.rb:43:in `current_state'
+  [1m[36mLineItem Sum (0.4ms)[0m  [1m[34mSELECT SUM("line_items"."quantity") FROM "line_items" WHERE "line_items"."order_id" = 218 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/views/orders/index.html.erb:109
+  [1m[36mOrderTransition Load (0.4ms)[0m  [1m[34mSELECT "order_transitions".* FROM "order_transitions" WHERE "order_transitions"."order_id" = 218 ORDER BY "order_transitions"."sort_key" DESC LIMIT 1 /*action='index',application='Shipright',controller='orders'*/[0m
+  ↳ app/models/order.rb:43:in `current_state'
+  [1m[36mCACHE Order Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "orders"[0m
+  ↳ app/views/orders/index.html.erb:139
+  Rendered orders/index.html.erb within layouts/application (Duration: 414.1ms | GC: 79.8ms)
+  Rendered layout layouts/application.html.erb (Duration: 415.2ms | GC: 79.8ms)
+Completed 200 OK in 456ms (Views: 378.3ms | ActiveRecord: 44.1ms (73 queries, 1 cached) | GC: 88.6ms)
+
+
