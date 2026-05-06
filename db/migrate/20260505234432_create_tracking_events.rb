@@ -13,6 +13,6 @@ class CreateTrackingEvents < ActiveRecord::Migration[8.1]
     end
 
     add_index :tracking_events, :tracking_number
-    add_index :tracking_events, [:order_id, :occurred_at]
+    add_index :tracking_events, [ :order_id, :occurred_at ]
   end
 end

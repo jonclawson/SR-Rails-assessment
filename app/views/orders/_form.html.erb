@@ -1,0 +1,179 @@
+<%= form_with(model: order, class: "space-y-6") do |form| %>
+  <% if order.errors.any? %>
+    <div class="rounded-md bg-red-50 p-4">
+      <div class="flex">
+        <div class="flex-shrink-0">
+          <svg class="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
+          </svg>
+        </div>
+        <div class="ml-3">
+          <h3 class="text-sm font-medium text-red-800">
+            <%= pluralize(order.errors.count, "error") %> prohibited this order from being saved:
+          </h3>
+          <div class="mt-2 text-sm text-red-700">
+            <ul class="list-disc list-inside space-y-1">
+              <% order.errors.full_messages.each do |message| %>
+                <li><%= message %></li>
+              <% end %>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end %>
+
+  <!-- Line Items Section -->
+  <div class="bg-white shadow sm:rounded-lg">
+    <div class="px-4 py-5 sm:p-6">
+      <h3 class="text-lg font-medium leading-6 text-gray-900 mb-4">Order Items</h3>
+      
+      <div id="line-items-container" class="space-y-4">
+        <%= form.fields_for :line_items do |line_item_form| %>
+          <%= render "line_item_fields", form: line_item_form, products: products %>
+        <% end %>
+      </div>
+
+      <button type="button" id="add-line-item" class="mt-4 inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+        <svg class="-ml-1 mr-2 h-5 w-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+        </svg>
+        Add Item
+      </button>
+    </div>
+  </div>
+
+  <!-- Order Summary -->
+  <div class="bg-gray-50 shadow sm:rounded-lg">
+    <div class="px-4 py-5 sm:p-6">
+      <h3 class="text-lg font-medium leading-6 text-gray-900 mb-2">Order Summary</h3>
+      <dl class="space-y-2">
+        <div class="flex justify-between text-sm">
+          <dt class="text-gray-600">Subtotal:</dt>
+          <dd id="order-subtotal" class="font-medium text-gray-900">$0.00</dd>
+        </div>
+        <div class="flex justify-between text-sm">
+          <dt class="text-gray-600">Tax (8%):</dt>
+          <dd id="order-tax" class="font-medium text-gray-900">$0.00</dd>
+        </div>
+        <div class="flex justify-between text-base font-semibold pt-2 border-t border-gray-200">
+          <dt>Total:</dt>
+          <dd id="order-total" class="text-gray-900">$0.00</dd>
+        </div>
+      </dl>
+    </div>
+  </div>
+
+  <!-- Form Actions -->
+  <div class="flex justify-end gap-3">
+    <%= link_to "Cancel", orders_path, class: "inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
+    <%= form.submit class: "inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
+  </div>
+<% end %>
+
+<script>
+  // Product prices (passed from server)
+  const productPrices = {
+    <% products.each do |product| %>
+      <%= product.id %>: <%= product.price %>,
+    <% end %>
+  };
+
+  let lineItemCount = <%= order.line_items.size %>;
+
+  // Calculate order totals
+  function updateOrderTotals() {
+    let subtotal = 0;
+    
+    document.querySelectorAll('.line-item-row').forEach(row => {
+      if (row.querySelector('[name*="[_destroy]"]')?.value === '1') return;
+      
+      const qtyInput = row.querySelector('[name*="[quantity]"]');
+      const productSelect = row.querySelector('[name*="[product_id]"]');
+      
+      if (qtyInput && productSelect) {
+        const quantity = parseFloat(qtyInput.value) || 0;
+        const productId = parseInt(productSelect.value);
+        const price = productPrices[productId] || 0;
+        subtotal += quantity * price;
+      }
+    });
+    
+    const tax = subtotal * 0.08;
+    const total = subtotal + tax;
+    
+    document.getElementById('order-subtotal').textContent = `$${subtotal.toFixed(2)}`;
+    document.getElementById('order-tax').textContent = `$${tax.toFixed(2)}`;
+    document.getElementById('order-total').textContent = `$${total.toFixed(2)}`;
+  }
+
+  // Add new line item
+  document.getElementById('add-line-item')?.addEventListener('click', function() {
+    const container = document.getElementById('line-items-container');
+    const timestamp = new Date().getTime();
+    
+    const newLineItem = `
+      <div class="line-item-row flex gap-3 items-start p-4 bg-gray-50 rounded-md">
+        <div class="flex-1">
+          <label class="block text-sm font-medium text-gray-700 mb-1">Product</label>
+          <select name="order[line_items_attributes][${timestamp}][product_id]" 
+                  class="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                  onchange="updateOrderTotals()">
+            <option value="">Select a product...</option>
+            <% products.each do |product| %>
+              <option value="<%= product.id %>"><%= product.name %> (<%= product.sku %>) - <%= product.formatted_price %></option>
+            <% end %>
+          </select>
+        </div>
+        <div class="w-32">
+          <label class="block text-sm font-medium text-gray-700 mb-1">Quantity</label>
+          <input type="number" 
+                 name="order[line_items_attributes][${timestamp}][quantity]" 
+                 value="1" 
+                 min="1" 
+                 class="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                 onchange="updateOrderTotals()">
+        </div>
+        <div class="pt-7">
+          <button type="button" 
+                  class="remove-line-item text-red-600 hover:text-red-800"
+                  onclick="removeLineItem(this)">
+            <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    `;
+    
+    container.insertAdjacentHTML('beforeend', newLineItem);
+    updateOrderTotals();
+  });
+
+  // Remove line item
+  window.removeLineItem = function(button) {
+    const row = button.closest('.line-item-row');
+    const destroyInput = row.querySelector('[name*="[_destroy]"]');
+    
+    if (destroyInput) {
+      // Mark for destruction (existing record)
+      destroyInput.value = '1';
+      row.style.display = 'none';
+    } else {
+      // Remove from DOM (new record)
+      row.remove();
+    }
+    
+    updateOrderTotals();
+  };
+
+  // Initial calculation
+  document.addEventListener('DOMContentLoaded', function() {
+    updateOrderTotals();
+    
+    // Add change listeners to existing inputs
+    document.querySelectorAll('[name*="[quantity]"], [name*="[product_id]"]').forEach(input => {
+      input.addEventListener('change', updateOrderTotals);
+    });
+  });
+</script>

@@ -16,7 +16,7 @@ module Orders
 
       Order.where(id: order_ids).find_each do |order|
         service = TransitionService.new(order, to_state: to_state, user: user)
-        
+
         if service.call
           @results[:succeeded] << {
             id: order.id,

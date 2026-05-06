@@ -35,10 +35,10 @@ puts "\n🛒 Creating orders with various states..."
 def create_order_in_state(user, products, target_state, days_ago: rand(1..30))
   # Set PaperTrail whodunnit for audit trail
   PaperTrail.request.whodunnit = user.id
-  
-  # Create order in initial state  
+
+  # Create order in initial state
   order = Order.new(user: user)
-  
+
   # Add 1-5 random line items
   items_count = rand(1..5)
   items_count.times do
@@ -48,37 +48,37 @@ def create_order_in_state(user, products, target_state, days_ago: rand(1..30))
       quantity: rand(1..3)
     )
   end
-  
+
   order.created_at = days_ago.days.ago
   order.save!
-  
+
   # Update timestamps to simulate order history
   order.update_columns(created_at: days_ago.days.ago, updated_at: days_ago.days.ago)
-  
+
   # Progress through states based on target state
   case target_state.to_sym
   when :approved
     order.transition_to!(:approved)
-    
+
   when :shipped
     order.transition_to!(:approved)
     order.transition_to!(:shipped)
-    
+
     # Generate tracking events for shipped orders
     if order.tracking_number.present?
       create_tracking_events(order, :in_progress)
     end
-    
+
   when :delivered
     order.transition_to!(:approved)
     order.transition_to!(:shipped)
-    
+
     # Generate tracking events and mark as delivered
     if order.tracking_number.present?
       create_tracking_events(order, :delivered)
       order.transition_to!(:delivered)
     end
-    
+
   when :canceled
     # Cancel the order (can be canceled from pending or approved)
     if rand < 0.5
@@ -86,14 +86,14 @@ def create_order_in_state(user, products, target_state, days_ago: rand(1..30))
     end
     order.transition_to!(:canceled)
   end
-  
+
   order
 end
 
 def create_tracking_events(order, status)
   carrier = CarrierApiSimulator::CARRIERS.sample
   base_time = order.order_transitions.where(to_state: 'shipped').last.created_at
-  
+
   # Shipped event
   order.tracking_events.create!(
     carrier: carrier,
@@ -103,7 +103,7 @@ def create_tracking_events(order, status)
     location: CarrierApiSimulator::LOCATIONS.sample,
     occurred_at: base_time
   )
-  
+
   # In transit events
   rand(1..3).times do |i|
     base_time += rand(6..18).hours
@@ -116,7 +116,7 @@ def create_tracking_events(order, status)
       occurred_at: base_time
     )
   end
-  
+
   if status == :delivered
     # Out for delivery
     base_time += rand(6..12).hours
@@ -128,7 +128,7 @@ def create_tracking_events(order, status)
       location: CarrierApiSimulator::LOCATIONS.sample,
       occurred_at: base_time
     )
-    
+
     # Delivered
     base_time += rand(2..6).hours
     order.tracking_events.create!(

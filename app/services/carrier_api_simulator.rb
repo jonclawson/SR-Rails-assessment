@@ -2,7 +2,7 @@
 # In production, this would be replaced with real carrier API integrations
 class CarrierApiSimulator
   CARRIERS = %w[USPS FedEx UPS DHL].freeze
-  
+
   EVENT_TYPES = {
     shipped: "Package picked up",
     in_transit: "In transit",
@@ -28,10 +28,10 @@ class CarrierApiSimulator
   def self.fetch_tracking_updates(tracking_number, carrier: CARRIERS.sample)
     # Simulate API delay (0.5 to 2 seconds)
     sleep(rand(0.5..2.0))
-    
+
     # Simulate occasional API failures (5% chance)
     raise ApiError, "Carrier API temporarily unavailable" if rand < 0.05
-    
+
     # Generate realistic tracking events based on order age
     generate_tracking_events(tracking_number, carrier)
   end
@@ -41,7 +41,7 @@ class CarrierApiSimulator
   def self.create_shipment(order, carrier: CARRIERS.sample)
     # Simulate API delay
     sleep(rand(0.3..1.0))
-    
+
     # Generate tracking number (carrier-specific format)
     generate_tracking_number(carrier)
   end

@@ -1,6 +1,6 @@
 class OrdersController < ApplicationController
   before_action :require_authentication
-  before_action :set_order, only: [:show, :edit, :update]
+  before_action :set_order, only: [ :show, :edit, :update ]
 
   # GET /orders
   # Dashboard with filtering, search, and pagination
@@ -17,7 +17,7 @@ class OrdersController < ApplicationController
     if params[:search].present?
       search_term = "%#{params[:search]}%"
       @orders = @orders.left_joins(:user)
-                       .where("orders.order_number ILIKE ? OR users.email_address ILIKE ?", 
+                       .where("orders.order_number ILIKE ? OR users.email_address ILIKE ?",
                               search_term, search_term)
     end
 
@@ -25,7 +25,9 @@ class OrdersController < ApplicationController
     @orders = @orders.page(params[:page]).per(30)
 
     # State counts for filter tabs
-    @state_counts = Order.group(:current_state).count
+    @state_counts = OrderStateMachine::STATES.index_with do |state|
+      Order.in_state(state).count
+    end
   end
 
   # GET /orders/:id
@@ -65,7 +67,7 @@ class OrdersController < ApplicationController
     # Handle state transition if to_state param is present
     if params[:to_state].present?
       service = Orders::TransitionService.new(@order, to_state: params[:to_state], user: Current.user)
-      
+
       if service.call
         redirect_to @order, notice: "Order transitioned to #{params[:to_state]}"
       else
@@ -119,7 +121,7 @@ class OrdersController < ApplicationController
 
   def order_params
     params.require(:order).permit(
-      line_items_attributes: [:id, :product_id, :quantity, :_destroy]
+      line_items_attributes: [ :id, :product_id, :quantity, :_destroy ]
     )
   end
 end

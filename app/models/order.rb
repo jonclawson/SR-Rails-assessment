@@ -70,7 +70,7 @@ class Order < ApplicationRecord
       line_item.unit_price ||= line_item.product&.price
       line_item.total = (line_item.quantity || 0) * (line_item.unit_price || 0)
     end
-    
+
     self.subtotal = line_items.sum { |li| li.total || 0 }
     self.tax = (subtotal * 0.08).round(2) # 8% tax rate
     self.total = subtotal + tax

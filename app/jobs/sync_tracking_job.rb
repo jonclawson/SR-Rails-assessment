@@ -6,15 +6,15 @@ class SyncTrackingJob < ApplicationJob
 
   def perform(order_id)
     order = Order.find(order_id)
-    
+
     # Don't sync if order doesn't have a tracking number yet
     return unless order.tracking_number.present?
-    
+
     # Fetch tracking updates from simulated carrier API
     tracking_updates = CarrierApiSimulator.fetch_tracking_updates(
       order.tracking_number
     )
-    
+
     # Create tracking events (skip duplicates based on occurred_at + event_type)
     tracking_updates.each do |update|
       order.tracking_events.find_or_create_by(

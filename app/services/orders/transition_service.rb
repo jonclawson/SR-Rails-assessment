@@ -19,7 +19,7 @@ module Orders
         PaperTrail.request(whodunnit: user.id) do
           order.transition_to!(to_state)
         end
-        
+
         true
       rescue Statesman::GuardFailedError => e
         @errors << "Cannot transition to #{to_state}: #{e.message}"

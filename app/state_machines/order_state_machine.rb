@@ -1,6 +1,9 @@
 class OrderStateMachine
   include Statesman::Machine
 
+  # All possible states
+  STATES = %w[pending approved shipped delivered canceled].freeze
+
   # Define states
   state :pending, initial: true
   state :approved
