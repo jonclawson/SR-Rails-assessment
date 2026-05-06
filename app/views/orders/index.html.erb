@@ -54,24 +54,25 @@
     </div>
   </div>
 
-  <!-- Bulk Actions Form -->
-  <%= form_with url: bulk_update_orders_path, method: :post, id: "bulk-actions-form", class: "bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-6 hidden", data: { controller: "bulk-actions" } do %>
-    <div class="flex items-center justify-between">
-      <div class="flex items-center space-x-4">
-        <span class="text-sm font-medium text-gray-700">
-          <span id="selected-count">0</span> order(s) selected
-        </span>
-        <select name="to_state" required class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 text-sm border-gray-300 rounded-md">
-          <option value="">Transition to...</option>
-          <% OrderStateMachine::STATES.each do |state| %>
-            <option value="<%= state %>"><%= state.capitalize %></option>
-          <% end %>
-        </select>
-        <%= button_tag "Apply", type: "submit", class: "inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" %>
+  <%= form_with url: bulk_update_orders_path, method: :post, id: "bulk-actions-form", data: { turbo: false } do %>
+    <!-- Bulk Actions Bar -->
+    <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-6">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center space-x-4">
+          <span class="text-sm font-medium text-gray-700">
+            <span id="selected-count">0</span> order(s) selected
+          </span>
+          <select name="to_state" required class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 text-sm border-gray-300 rounded-md">
+            <option value="">Transition to...</option>
+            <% OrderStateMachine::STATES.each do |state| %>
+              <option value="<%= state %>"><%= state.capitalize %></option>
+            <% end %>
+          </select>
+          <%= button_tag "Apply", type: "submit", class: "inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" %>
+        </div>
+        <button type="button" id="clear-selection" class="text-sm text-gray-600 hover:text-gray-900">Clear selection</button>
       </div>
-      <button type="button" id="clear-selection" class="text-sm text-gray-600 hover:text-gray-900">Clear selection</button>
     </div>
-  <% end %>
 
   <!-- Orders Table -->
   <div class="bg-white shadow overflow-hidden rounded-lg">
@@ -96,7 +97,7 @@
           <% @orders.each do |order| %>
             <tr class="hover:bg-gray-50">
               <td class="px-6 py-4 whitespace-nowrap">
-                <input type="checkbox" name="order_ids[]" value="<%= order.id %>" form="bulk-actions-form" class="order-checkbox h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded">
+                <input type="checkbox" name="order_ids[]" value="<%= order.id %>" class="order-checkbox h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded">
               </td>
               <td class="px-6 py-4 whitespace-nowrap">
                 <%= link_to order.order_number, order_path(order), class: "text-indigo-600 hover:text-indigo-900 font-medium" %>
@@ -155,40 +156,5 @@
       </div>
     <% end %>
   </div>
+  <% end %>
 </div>
-
-<script>
-  // Bulk actions JavaScript
-  document.addEventListener('DOMContentLoaded', () => {
-    const selectAll = document.getElementById('select-all');
-    const orderCheckboxes = document.querySelectorAll('.order-checkbox');
-    const bulkActionsForm = document.getElementById('bulk-actions-form');
-    const selectedCount = document.getElementById('selected-count');
-    const clearSelection = document.getElementById('clear-selection');
-
-    function updateBulkActionsVisibility() {
-      const checkedCount = document.querySelectorAll('.order-checkbox:checked').length;
-      selectedCount.textContent = checkedCount;
-      if (checkedCount > 0) {
-        bulkActionsForm.classList.remove('hidden');
-      } else {
-        bulkActionsForm.classList.add('hidden');
-      }
-    }
-
-    selectAll?.addEventListener('change', (e) => {
-      orderCheckboxes.forEach(cb => cb.checked = e.target.checked);
-      updateBulkActionsVisibility();
-    });
-
-    orderCheckboxes.forEach(cb => {
-      cb.addEventListener('change', updateBulkActionsVisibility);
-    });
-
-    clearSelection?.addEventListener('click', () => {
-      selectAll.checked = false;
-      orderCheckboxes.forEach(cb => cb.checked = false);
-      updateBulkActionsVisibility();
-    });
-  });
-</script>
