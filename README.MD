@@ -83,6 +83,7 @@ canceled   canceled
 - Node.js 18+ (for asset compilation)
 
 ## 🚦 Getting Started
+Normaly, I would have used docker to run the app, but the requirements explicitly requested no docker or CI/CD. 
 
 ### 1. Clone and Install
 
