@@ -2,6 +2,43 @@
 
 A comprehensive Rails 8 operations fulfillment platform for managing orders through their complete lifecycle from pending to delivery.
 
+## Design considerations
+
+1. The State Machine
+  
+   Rather than custom if/else logic in the controller this app uses a State Machine.
+
+   Statesman gem was chosen because it decouples state logic from the model and provides an easy path for the Audit History requirement (it records every transition in a separate table by default).
+
+   Logic:
+
+   `pending -> reviewed -> shipped -> delivered.`
+
+   This ensures that "shipping before review" is physically impossible at the database/model level.
+
+2. Audit History  
+
+   This tool could apply to other models.
+
+   The PaperTrail gem is an Industry standard for Rails auditing. It handles "who, what, when" out of the box. If you want to show off "Architecture," implement a simple polymorphic ActivityLog that records record_id, record_type, event_description, and metadata (JSONB).
+
+3. Data Integrity & Precision
+   For money, the type used is decimal with precision: 10, scale: 2. The money-rails gem was also a consideration.
+
+   Validations uses greater or equal to 0 for prices.
+
+4. External Integration: Carrier Tracking
+
+   Solid Queue was chosen over sidekick/redis as a (standard in Rails 8). 
+   When an order is marked "Shipped," it triggers a tracking job.
+
+   Live Updates use Turbo Streams. When the background job finishes, broadcast the update so the view refreshes without a page reload.Very Railsish.
+
+5. UI & Bulk Actions
+   Authentication uses the Rails 8 built-in authentication generator (bin/rails generate authentication) rather than Devise previously the standard. It's cleaner and is up to date with the latest framework features.
+
+   Bulk Actions use checkboxes in index view.
+
 ## 🚀 Features
 
 ### Core Functionality
@@ -266,7 +303,10 @@ All changes to orders, line items, and products are tracked. The current user is
 ## 🧪 Testing
 
 ```bash
-# Run all tests
+# Run end to end Rspec tests
+bundle exec rspec
+
+# Run unit tests
 bin/rails test
 
 # Run specific test file
@@ -298,17 +338,6 @@ COVERAGE=true bin/rails test
    - First load may be slow while Tailwind compiles
    - Run `bin/rails tailwindcss:build` before deploying to production
 
-## 📈 Future Enhancements
-
-- [ ] Integrate real carrier APIs (USPS, FedEx, UPS)
-- [ ] Customer-facing order tracking portal
-- [ ] Email notifications for state changes
-- [ ] Export orders to CSV/PDF
-- [ ] Analytics dashboard with charts
-- [ ] Role-based access control (admin vs. staff)
-- [ ] Order notes and internal comments
-- [ ] Inventory management integration
-- [ ] Multi-warehouse support
 
 ## 🤝 Contributing
 
@@ -338,15 +367,6 @@ COVERAGE=true bin/rails test
 - **Auditing:** PaperTrail tracks all changes with user context
 - **Background Jobs:** Solid Queue handles async tracking sync
 
-## 📄 License
-
-[Your License Here]
-
-## 👤 Author
-
-Built as a take-home assignment for ShipRight Operations Dashboard requirements.
-
----
 
 **Documentation Version:** 1.0  
 **Last Updated:** May 5, 2026  
