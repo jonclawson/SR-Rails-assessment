@@ -62,7 +62,7 @@ group :development, :test do
   gem "faker", "~> 3.0"
 
   # RSpec testing framework
-  gem "rspec-rails", "~> 7.0"
+  gem "rspec-rails", "~> 8.0"
 
   # Audits gems for known security defects (use config/bundler-audit.yml to ignore issues)
   gem "bundler-audit", require: false
