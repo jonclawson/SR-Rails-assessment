@@ -85,12 +85,33 @@ canceled   canceled
 ## 🚦 Getting Started
 Normaly, I would have used docker to run the app, but the requirements explicitly requested no docker or CI/CD. 
 
-### 1. Clone and Install
+### Clone Repo
+```bash
+git clone 
+cd SR-Rails-assessmentt
+
+```
+
+### Quick Setup
+```
+bin/setup
+```
+Navigate to `http://localhost:3000` and login with:
+
+```
+Email: staff@shipright.com
+Password: password
+```
+
+### Manual steps
+
+### 1. Install
 
 ```bash
 git clone 
 cd SR-Rails-assessmentt
 bundle install
+
 ```
 
 ### 2. Database Setup
