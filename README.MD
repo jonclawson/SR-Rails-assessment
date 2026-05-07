@@ -29,7 +29,7 @@ A comprehensive Rails 8 operations fulfillment platform for managing orders thro
 
 4. External Integration: Carrier Tracking
 
-   Solid Queue was chosen over sidekick/redis as a (standard in Rails 8). 
+   Solid Queue was chosen over Sidekiq/redis as a (standard in Rails 8). 
    When an order is marked "Shipped," it triggers a tracking job.
 
    Live Updates use Turbo Streams. When the background job finishes, broadcast the update so the view refreshes without a page reload.Very Railsish.
