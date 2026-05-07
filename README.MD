@@ -88,8 +88,8 @@ Normaly, I would have used docker to run the app, but the requirements explicitl
 ### 1. Clone and Install
 
 ```bash
-git clone <repository-url>
-cd shipright
+git clone 
+cd SR-Rails-assessmentt
 bundle install
 ```
 
