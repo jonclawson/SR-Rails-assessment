@@ -85,16 +85,40 @@ class OrdersController < ApplicationController
   # POST /orders/bulk_update
   # Bulk transition multiple orders
   def bulk_update
-    order_ids = params[:order_ids] || []
     to_state = params[:to_state]
 
-    if order_ids.empty?
-      redirect_to orders_path, alert: "No orders selected"
+    # Validate state transition first
+    unless to_state.present? && OrderStateMachine::STATES.include?(to_state)
+      redirect_to orders_path, alert: "Invalid state selected"
       return
     end
 
-    unless to_state.present? && OrderStateMachine::STATES.include?(to_state)
-      redirect_to orders_path, alert: "Invalid state selected"
+    # Determine which orders to update based on select_all_mode
+    if params[:select_all_mode] == "true"
+      # Select all orders matching current filters (from localStorage)
+      orders = Order.includes(:user, :line_items, :products)
+                    .order(created_at: :desc)
+
+      # Apply same filters as index action
+      if params[:state].present? && OrderStateMachine::STATES.include?(params[:state])
+        orders = orders.in_state(params[:state])
+      end
+
+      if params[:search].present?
+        search_term = "%#{params[:search].strip}%"
+        orders = orders.left_joins(:user)
+                       .where("orders.order_number ILIKE ? OR users.email_address ILIKE ?",
+                              search_term, search_term)
+      end
+
+      order_ids = orders.pluck(:id)
+    else
+      # Use selected order IDs from localStorage (passed as hidden inputs)
+      order_ids = params[:order_ids] || []
+    end
+
+    if order_ids.empty?
+      redirect_to orders_path, alert: "No orders selected"
       return
     end
 
