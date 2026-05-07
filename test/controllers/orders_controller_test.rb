@@ -25,12 +25,12 @@ class OrdersControllerTest < ActionDispatch::IntegrationTest
 
   test "should create order" do
     assert_difference("Order.count") do
-      post orders_path, params: { 
-        order: { 
+      post orders_path, params: {
+        order: {
           line_items_attributes: {
             "0" => { product_id: @product.id, quantity: 1 }
           }
-        } 
+        }
       }
     end
     assert_redirected_to order_path(Order.last)
@@ -42,12 +42,12 @@ class OrdersControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update order" do
-    patch order_path(@order), params: { 
-      order: { 
+    patch order_path(@order), params: {
+      order: {
         line_items_attributes: {
           "0" => { product_id: @product.id, quantity: 2 }
         }
-      } 
+      }
     }
     assert_redirected_to order_path(@order)
   end
@@ -57,14 +57,14 @@ class OrdersControllerTest < ActionDispatch::IntegrationTest
     assert_equal "pending", @order.current_state
 
     post bulk_update_orders_path, params: {
-      order_ids: [@order.id],
+      order_ids: [ @order.id ],
       to_state: "approved"
     }
-    
+
     assert_redirected_to orders_path
     assert_not_nil flash[:notice], "Expected flash notice to be set"
     assert_match /successfully/i, flash[:notice]
-    
+
     # Verify the order state changed
     @order.reload
     assert_equal "approved", @order.current_state
