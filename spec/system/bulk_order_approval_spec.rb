@@ -73,9 +73,9 @@ RSpec.describe "Bulk Order Approval", type: :system do
     expect(page).to have_content(order3.order_number)
     expect(page).to have_content(order_not_selected.order_number)
 
-    # Step 5: Verify bulk actions form is visible
+    # Step 5: Verify bulk actions form exists but is hidden by default
     expect(page).to have_css("#bulk-actions-form")
-    expect(page).to have_content("order(s) selected")
+    expect(page).to have_css("[data-bulk-selection-target='bulkBar']", text: "order(s) selected", visible: :hidden)
   end
   scenario "Staff member logs in and bulk-approves three pending orders" do
     sign_in_as(staff_user)
@@ -157,11 +157,17 @@ RSpec.describe "Bulk Order Approval", type: :system do
     end
   end
 
-  scenario "Bulk actions form is always visible" do
+  scenario "Bulk actions bar shows when orders are selected" do
     sign_in_as(staff_user)
 
-    # Form should be visible with default count
-    expect(page).to have_css("#bulk-actions-form")
+    # Bulk bar should be hidden by default
+    expect(page).to have_css("[data-bulk-selection-target='bulkBar']", visible: :hidden)
+
+    # Select an order
+    find("input[name='order_ids[]'][value='#{order1.id}']").check
+
+    # Bulk bar should now be visible
+    expect(page).to have_css("[data-bulk-selection-target='bulkBar']", visible: :visible)
     expect(page).to have_content("order(s) selected")
   end
 

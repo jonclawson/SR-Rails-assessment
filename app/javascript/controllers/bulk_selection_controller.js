@@ -1,7 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["checkbox", "count", "selectAll"]
+  static targets = ["checkbox", "count", "selectAll", "bulkBar"]
 
   connect() {
     this.updateCount()
@@ -18,6 +18,15 @@ export default class extends Controller {
   updateCount() {
     const count = this.checkboxTargets.filter(cb => cb.checked).length
     this.countTarget.textContent = count
+    
+    // Show/hide bulk actions bar
+    if (this.hasBulkBarTarget) {
+      if (count > 0) {
+        this.bulkBarTarget.classList.remove("hidden")
+      } else {
+        this.bulkBarTarget.classList.add("hidden")
+      }
+    }
     
     // Update select all checkbox state based on individual checkboxes
     if (this.hasSelectAllTarget) {
