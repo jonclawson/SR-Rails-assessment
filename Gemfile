@@ -43,7 +43,7 @@ gem "thruster", require: false
 gem "image_processing", "~> 1.2"
 
 # State machine for orders
-gem "statesman", "~> 12.1"
+gem "statesman", "~> 13.1"
 
 # Audit trail for model changes
 gem "paper_trail", "~> 15.0"
