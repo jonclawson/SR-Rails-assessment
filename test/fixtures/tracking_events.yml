@@ -2,18 +2,18 @@
 
 one:
   order: one
-  carrier: MyString
-  tracking_number: MyString
-  event_type: MyString
-  description: MyText
-  location: MyString
+  carrier: FedEx
+  tracking_number: TRK001234567890
+  event_type: in_transit
+  description: Package is in transit
+  location: Los Angeles, CA
   occurred_at: 2026-05-05 16:44:32
 
 two:
   order: two
-  carrier: MyString
-  tracking_number: MyString
-  event_type: MyString
-  description: MyText
-  location: MyString
-  occurred_at: 2026-05-05 16:44:32
+  carrier: UPS
+  tracking_number: TRK987654321098
+  event_type: delivered
+  description: Package was delivered
+  location: New York, NY
+  occurred_at: 2026-05-06 10:30:00
