@@ -51,6 +51,9 @@ gem "paper_trail", "~> 15.0"
 # Pagination
 gem "kaminari", "~> 1.2"
 
+# Display times in user's local timezone
+gem "local_time", "~> 3.0"
+
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"

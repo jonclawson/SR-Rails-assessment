@@ -192,7 +192,7 @@
                 <div class="text-sm">
                   <p class="font-medium text-gray-900"><%= version.event.capitalize %></p>
                   <p class="text-xs text-gray-500">
-                    <%= version.created_at.strftime("%b %d, %Y at %I:%M %p") %>
+                    <%= local_time(version.created_at, format: "%b %d, %Y at %I:%M %p") %>
                     <% if version.whodunnit.present? %>
                       <% user = User.find_by(id: version.whodunnit) %>
                       <% if user %>
