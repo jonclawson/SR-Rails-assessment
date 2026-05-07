@@ -15,7 +15,7 @@ class OrdersController < ApplicationController
 
     # Search by order number or customer email
     if params[:search].present?
-      search_term = "%#{params[:search]}%"
+      search_term = "%#{params[:search].strip}%"
       @orders = @orders.left_joins(:user)
                        .where("orders.order_number ILIKE ? OR users.email_address ILIKE ?",
                               search_term, search_term)
