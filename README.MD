@@ -300,7 +300,6 @@ COVERAGE=true bin/rails test
 
 ## 📈 Future Enhancements
 
-- [ ] Add Turbo Streams for real-time tracking updates
 - [ ] Integrate real carrier APIs (USPS, FedEx, UPS)
 - [ ] Customer-facing order tracking portal
 - [ ] Email notifications for state changes

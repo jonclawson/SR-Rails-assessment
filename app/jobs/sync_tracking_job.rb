@@ -50,12 +50,11 @@ class SyncTrackingJob < ApplicationJob
   private
 
   def broadcast_tracking_update(order)
-    # Will implement Turbo Stream broadcasting when we build the views
-    # Turbo::StreamsChannel.broadcast_replace_to(
-    #   "order_#{order.id}",
-    #   target: "tracking_timeline",
-    #   partial: "orders/tracking_timeline",
-    #   locals: { order: order }
-    # )
+    Turbo::StreamsChannel.broadcast_replace_to(
+      "order_#{order.id}",
+      target: "tracking_timeline",
+      partial: "orders/tracking_timeline",
+      locals: { order: order }
+    )
   end
 end
