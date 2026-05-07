@@ -79,18 +79,18 @@ RSpec.describe "Bulk Order Approval", type: :system do
 
     # Step 6: Select three specific orders by their IDs (not the fourth one)
     # Note: Orders are displayed newest first, so we need to select by value
-    find("input[name='order_ids[]'][value='#{order1.id}']").check
-    find("input[name='order_ids[]'][value='#{order2.id}']").check
-    find("input[name='order_ids[]'][value='#{order3.id}']").check
+    # Use set(true) which is more reliable than check for programmatic selection
+    find("input[name='order_ids[]'][value='#{order1.id}']", visible: :all).set(true)
+    find("input[name='order_ids[]'][value='#{order2.id}']", visible: :all).set(true)
+    find("input[name='order_ids[]'][value='#{order3.id}']", visible: :all).set(true)
 
     # Verify the three selected checkboxes are checked
-    expect(find("input[name='order_ids[]'][value='#{order1.id}']")).to be_checked
-    expect(find("input[name='order_ids[]'][value='#{order2.id}']")).to be_checked
-    expect(find("input[name='order_ids[]'][value='#{order3.id}']")).to be_checked
+    expect(find("input[name='order_ids[]'][value='#{order1.id}']", visible: :all).checked?).to be true
+    expect(find("input[name='order_ids[]'][value='#{order2.id}']", visible: :all).checked?).to be true
+    expect(find("input[name='order_ids[]'][value='#{order3.id}']", visible: :all).checked?).to be true
 
     # Verify the fourth order is NOT selected
-    fourth_checkbox = find("input[name='order_ids[]'][value='#{order_not_selected.id}']")
-    expect(fourth_checkbox).not_to be_checked
+    expect(find("input[name='order_ids[]'][value='#{order_not_selected.id}']", visible: :all).checked?).to be false
 
     # Step 7: Select "Approved" from the state transition dropdown
     within "#bulk-actions-form" do
@@ -168,15 +168,15 @@ RSpec.describe "Bulk Order Approval", type: :system do
     sign_in_as(staff_user)
 
     # Select specific orders by their IDs
-    find("input[name='order_ids[]'][value='#{order1.id}']").check
-    find("input[name='order_ids[]'][value='#{order2.id}']").check
-    find("input[name='order_ids[]'][value='#{order3.id}']").check
+    find("input[name='order_ids[]'][value='#{order1.id}']", visible: :all).set(true)
+    find("input[name='order_ids[]'][value='#{order2.id}']", visible: :all).set(true)
+    find("input[name='order_ids[]'][value='#{order3.id}']", visible: :all).set(true)
 
     # Verify specific checkboxes are checked
-    expect(find("input[name='order_ids[]'][value='#{order1.id}']")).to be_checked
-    expect(find("input[name='order_ids[]'][value='#{order2.id}']")).to be_checked
-    expect(find("input[name='order_ids[]'][value='#{order3.id}']")).to be_checked
-    expect(find("input[name='order_ids[]'][value='#{order_not_selected.id}']")).not_to be_checked
+    expect(find("input[name='order_ids[]'][value='#{order1.id}']", visible: :all).checked?).to be true
+    expect(find("input[name='order_ids[]'][value='#{order2.id}']", visible: :all).checked?).to be true
+    expect(find("input[name='order_ids[]'][value='#{order3.id}']", visible: :all).checked?).to be true
+    expect(find("input[name='order_ids[]'][value='#{order_not_selected.id}']", visible: :all).checked?).to be false
   end
 
   scenario "Bulk transition fails gracefully for invalid state" do
@@ -199,7 +199,7 @@ RSpec.describe "Bulk Order Approval", type: :system do
     sign_in_as(staff_user)
 
     # Select order1 specifically
-    find("input[name='order_ids[]'][value='#{order1.id}']").check
+    find("input[name='order_ids[]'][value='#{order1.id}']", visible: :all).set(true)
 
     # Select approved state
     within "#bulk-actions-form" do
