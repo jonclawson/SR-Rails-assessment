@@ -49,7 +49,7 @@ RSpec.describe "Bulk Order Approval", type: :system do
     expect(order_not_selected.current_state).to eq("pending")
   end
 
-  scenario "Staff member logs in and bulk-approves three pending orders" do
+  scenario "Staff member logs in and views orders" do
     # Step 1: Visit the login page
     visit root_path
 
@@ -76,7 +76,9 @@ RSpec.describe "Bulk Order Approval", type: :system do
     # Step 5: Verify bulk actions form is visible
     expect(page).to have_css("#bulk-actions-form")
     expect(page).to have_content("order(s) selected")
-
+  end
+  scenario "Staff member logs in and bulk-approves three pending orders" do
+    sign_in_as(staff_user)
     # Step 6: Select three specific orders by their IDs (not the fourth one)
     # Note: Orders are displayed newest first, so we need to select by value
     find("input[name='order_ids[]'][value='#{order1.id}']").check
@@ -89,21 +91,7 @@ RSpec.describe "Bulk Order Approval", type: :system do
     expect(find("input[name='order_ids[]'][value='#{order3.id}']")).to be_checked
 
     # Verify the fourth order is NOT selected
-    fourth_checkbox = find("input[name='order_ids[]'][value='#{order_not_selected.id}']")
-    expect(fourth_checkbox).not_to be_checked
-
-    # Use set(true) which is more reliable than check for programmatic selection
-    # find("input[name='order_ids[]'][value='#{order1.id}']", visible: :all).set(true)
-    # find("input[name='order_ids[]'][value='#{order2.id}']", visible: :all).set(true)
-    # find("input[name='order_ids[]'][value='#{order3.id}']", visible: :all).set(true)
-
-    # # Verify the three selected checkboxes are checked
-    # expect(find("input[name='order_ids[]'][value='#{order1.id}']", visible: :all).checked?).to be true
-    # expect(find("input[name='order_ids[]'][value='#{order2.id}']", visible: :all).checked?).to be true
-    # expect(find("input[name='order_ids[]'][value='#{order3.id}']", visible: :all).checked?).to be true
-
-    # # Verify the fourth order is NOT selected
-    # expect(find("input[name='order_ids[]'][value='#{order_not_selected.id}']", visible: :all).checked?).to be false
+    expect(find("input[name='order_ids[]'][value='#{order_not_selected.id}']")).not_to be_checked
 
     # Step 7: Select "Approved" from the state transition dropdown
     within "#bulk-actions-form" do
