@@ -83,7 +83,6 @@ canceled   canceled
 - Node.js 18+ (for asset compilation)
 
 ## 🚦 Getting Started
-Normaly, I would have used docker to run the app, but the requirements explicitly requested no docker or CI/CD. 
 
 ### Clone Repo
 ```bash
@@ -92,10 +91,17 @@ cd SR-Rails-assessmentt
 
 ```
 
+### Docker 
+If you have docker and don't want to mess with the Ruby, PostresSQL and Node, you can run in a container
+```
+docker compose up
+```
+Navigate to `http://localhost:3000` and login with:
+
+
 ### Quick Setup
 ```
-bin/setup
-bin/rails db:seed
+bin/kickstart
 ```
 Navigate to `http://localhost:3000` and login with:
 
