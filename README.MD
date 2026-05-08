@@ -39,9 +39,9 @@ A comprehensive Rails 8 operations fulfillment platform for managing orders thro
    Live Updates use Turbo Streams. When the background job finishes, broadcast the update so the view refreshes without a page reload.Very Railsish.
 
 5. UI & Bulk Actions
-   Authentication uses the Rails 8 built-in authentication generator (bin/rails generate authentication) rather than Devise previously the standard. It's cleaner and is up to date with the latest framework features.
+   Authentication uses the Rails 8 built-in authentication generator (bin/rails generate authentication) rather than Devise previously the standard. It's cleaner and is up to date with the latest framework features. No user registration or management feature has been implemented.
 
-   Bulk Actions use checkboxes in index view.
+   Bulk Actions use checkboxes in index view. The user is limited to selecting rows on the current page. Future development would consider the options of multipage selction using server, local storage or single page application.
 
 ## 🚀 Features
 
