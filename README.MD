@@ -95,6 +95,7 @@ cd SR-Rails-assessmentt
 ### Quick Setup
 ```
 bin/setup
+bin/rails db:seed
 ```
 Navigate to `http://localhost:3000` and login with:
 

@@ -1,0 +1,4 @@
+bin/rails db:prepare
+bin/rails db:reset
+# bin/rails db:seed
+bin/dev
