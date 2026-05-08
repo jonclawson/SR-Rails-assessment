@@ -2,6 +2,9 @@
 
 A comprehensive Rails 8 operations fulfillment platform for managing orders through their complete lifecycle from pending to delivery.
 
+## Development
+Most of this code was AI generated. The core of work was spent researching the architecuture design, testing, fixing bugs and extending features with manual developemnt. The bulk operations rspec was a focal point of the manual development.  
+
 ## Design considerations
 
 1. The State Machine
