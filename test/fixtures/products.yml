@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: Widget Pro
+  sku: WDG-PRO-001
+  price: 29.99
+  description: A premium widget for testing
+
+two:
+  name: Gadget Basic
+  sku: GDG-BSC-001
+  price: 19.99
+  description: A basic gadget for testing

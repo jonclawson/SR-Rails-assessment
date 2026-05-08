@@ -1,0 +1,67 @@
+# Ignore bundler config.
+/.bundle
+
+# Ignore all environment files (except templates).
+/.env*
+!/.env*.erb
+
+# Ignore all logfiles and tempfiles.
+/log/*
+/tmp/*
+!/log/.keep
+!/tmp/.keep
+!/tmp/pids/
+/tmp/pids/*
+!/tmp/pids/.keep
+
+# Ignore pidfiles, but keep the directory.
+/tmp/pids/*
+!/tmp/pids/.keep
+
+# Ignore storage (uploaded files in development and any SQLite databases).
+/storage/*
+!/storage/.keep
+/tmp/storage/*
+!/tmp/storage/.keep
+
+# Ignore master key for decrypting credentials and more.
+/config/master.key
+
+# Ignore database configuration (contains sensitive credentials).
+/config/database.yml
+
+# Ignore precompiled assets.
+/public/assets
+
+# Ignore node_modules
+/node_modules
+
+# Ignore yarn files
+/yarn-error.log
+yarn-debug.log*
+.yarn-integrity
+
+# Ignore uploaded files
+/public/uploads
+
+# Ignore test coverage reports
+/coverage
+
+# Ignore RSpec files
+*.rspec_status
+/spec/examples.txt
+
+# Ignore Capybara screenshots
+/tmp/capybara
+
+# Ignore editor/IDE files
+.DS_Store
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Ignore local development files
+/.env.local
+.ruby-version.local

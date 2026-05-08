@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  order_number: ORD-TEST001
+  subtotal: 9.99
+  tax: 0.80
+  total: 10.79
+  user: one
+
+two:
+  order_number: ORD-TEST002
+  subtotal: 19.99
+  tax: 1.60
+  total: 21.59
+  user: one
