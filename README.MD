@@ -22,6 +22,10 @@ A comprehensive Rails 8 operations fulfillment platform for managing orders thro
 
    The PaperTrail gem is an Industry standard for Rails auditing. It handles "who, what, when" out of the box. If you want to show off "Architecture," implement a simple polymorphic ActivityLog that records record_id, record_type, event_description, and metadata (JSONB).
 
+   *Turned out that PaperTrail does not officially support Rails 8. However it seems to work. I had already implemented it and decided I would remove it if I had time.
+
+
+
 3. Data Integrity & Precision
    For money, the type used is decimal with precision: 10, scale: 2. The money-rails gem was also a consideration.
 
@@ -99,7 +103,7 @@ docker compose up
 Navigate to `http://localhost:3000` and login with:
 
 
-### Quick Setup
+### Quick Local Setup
 ```
 bin/kickstart
 ```
